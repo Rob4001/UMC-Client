@@ -16,9 +16,9 @@ public class GuiChestShop extends GuiScreen{
 	public GuiChestShop(TileEntitySign entitySign) {
 		this.entitySign = entitySign;
 		screenTitle = "ChestShop GUI"; 
-		
+
 	}
-	
+
 	public void initGui()
     {
 		controlList.add(new GuiButton(0,width / 2 - 50,height - 20,100,20,"Done"));
@@ -26,7 +26,7 @@ public class GuiChestShop extends GuiScreen{
 		ia = new GuiTextField(this,fontRenderer, width / 2 - 50, 70,100,20,"");
 		buy = new GuiTextField(this,fontRenderer, width / 2 -150, 120,100,20,"");
 		sell = new GuiTextField(this,fontRenderer, width / 2 + 50, 120,100,20,"");
-		
+
     }
 	 protected void actionPerformed(GuiButton guibutton)
 	    {
@@ -78,7 +78,7 @@ public class GuiChestShop extends GuiScreen{
 	        ia.mouseClicked(i, j, k);
 	        buy.mouseClicked(i, j, k);
 	        sell.mouseClicked(i, j, k);
-	       
+
 	    }
 	    protected void keyTyped(char c, int i)
 	    {
