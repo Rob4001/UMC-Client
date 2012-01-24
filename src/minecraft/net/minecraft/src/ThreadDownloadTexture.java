@@ -33,10 +33,10 @@ public void run(){
 		        byte abyte0[] = new byte[4096];
 		        DataInputStream datainputstream = new DataInputStream(url.openStream());
 		        DataOutputStream dataoutputstream = new DataOutputStream(new FileOutputStream(file));
-		        for(int i = 0; (i = datainputstream.read(abyte0)) >= 0;)
+		        for (int i = 0; (i = datainputstream.read(abyte0)) >= 0;)
 		        {
 		            dataoutputstream.write(abyte0, 0, i);
-//		            if(closing)
+//		            if (closing)
 //		            {
 //		                return;
 //		            }

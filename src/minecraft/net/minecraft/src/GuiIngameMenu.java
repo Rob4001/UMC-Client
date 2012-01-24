@@ -1,7 +1,3 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.util.List;
@@ -22,14 +18,9 @@ import java.util.List;
 import net.minecraft.client.Minecraft;
 import org.lwjgl.opengl.GL11;
 
-// Referenced classes of package net.minecraft.src:
-//            GuiScreen, GuiButton, StatCollector, GuiOptions, 
-//            StatList, StatFileWriter, World, GuiMainMenu, 
-//            GuiAchievements, GuiStats, MathHelper
 
 public class GuiIngameMenu extends GuiScreen
 {
-
     private int updateCounter2;
     private int updateCounter;
 
@@ -44,49 +35,48 @@ public class GuiIngameMenu extends GuiScreen
         updateCounter2 = 0;
         controlList.clear();
         byte byte0 = -16;
-        controlList.add(new GuiButton(1, width / 2 - 100, height / 4 + 144 + byte0, "Save and quit to title"));
-        if(mc.isMultiplayerWorld())
+        controlList.add(new GuiButton(1, width / 2 - 100, height / 4 + 120 + byte0, StatCollector.translateToLocal("menu.returnToMenu")));
+        if (mc.isMultiplayerWorld())
         {
-            ((GuiButton)controlList.get(0)).displayString = "Disconnect";
+            ((GuiButton)controlList.get(0)).displayString = StatCollector.translateToLocal("menu.disconnect");
         }
-        controlList.add(new GuiButton(4, width / 2 - 100, height / 4 + 24 + byte0, "Back to game"));
-        controlList.add(new GuiButton(0, width / 2 - 100, height / 4 + 120 + byte0, "Options..."));
+        controlList.add(new GuiButton(4, width / 2 - 100, height / 4 + 24 + byte0, StatCollector.translateToLocal("menu.returnToGame")));
+        controlList.add(new GuiButton(0, width / 2 - 100, height / 4 + 96 + byte0, StatCollector.translateToLocal("menu.options")));
         if (this.mc.isMultiplayerWorld())  controlList.add(new GuiButton(10, width / 2 - 100, height / 4 + 72 + byte0, "Reconnect"));
-        controlList.add(new GuiButton(11, width / 2 - 100, height / 4 + 96 + byte0, "TexturePacks"));
         controlList.add(new GuiButton(5, width / 2 - 100, height / 4 + 48 + byte0, 98, 20, StatCollector.translateToLocal("gui.achievements")));
         controlList.add(new GuiButton(6, width / 2 + 2, height / 4 + 48 + byte0, 98, 20, StatCollector.translateToLocal("gui.stats")));
     }
 
     protected void actionPerformed(GuiButton guibutton)
     {
-        if(guibutton.id == 0)
+        if (guibutton.id == 0)
         {
             mc.displayGuiScreen(new GuiOptions(this, mc.gameSettings));
         }
-        if(guibutton.id == 1)
+        if (guibutton.id == 1)
         {
             mc.statFileWriter.readStat(StatList.leaveGameStat, 1);
-            if(mc.isMultiplayerWorld())
+            if (mc.isMultiplayerWorld())
             {
                 mc.theWorld.sendQuittingDisconnectingPacket();
             }
             mc.changeWorld1(null);
             mc.displayGuiScreen(new GuiMainMenu());
         }
-        if(guibutton.id == 4)
+        if (guibutton.id == 4)
         {
             mc.displayGuiScreen(null);
             mc.setIngameFocus();
         }
-        if(guibutton.id == 5)
+        if (guibutton.id == 5)
         {
             mc.displayGuiScreen(new GuiAchievements(mc.statFileWriter));
         }
-        if(guibutton.id == 6)
+        if (guibutton.id == 6)
         {
             mc.displayGuiScreen(new GuiStats(this, mc.statFileWriter));
         }
-        if(guibutton.id == 10)
+		        if(guibutton.id == 10)
         {
             mc.statFileWriter.readStat(StatList.leaveGameStat, 1);
             if(mc.isMultiplayerWorld())
@@ -100,9 +90,9 @@ public class GuiIngameMenu extends GuiScreen
         {
            mc.displayGuiScreen(new GuiTexturePacks(this));
         }
-     }
+    }
 
-	public void updateScreen()
+    public void updateScreen()
     {
         super.updateScreen();
         updateCounter++;
@@ -111,8 +101,8 @@ public class GuiIngameMenu extends GuiScreen
     public void drawScreen(int i, int j, float f)
     {
         drawDefaultBackground();
-        boolean flag = !mc.theWorld.func_650_a(updateCounter2++);
-        if(flag || updateCounter < 20)
+        boolean flag = !mc.theWorld.quickSaveWorld(updateCounter2++);
+        if (flag || updateCounter < 20)
         {
             float f1 = ((float)(updateCounter % 10) + f) / 10F;
             f1 = MathHelper.sin(f1 * 3.141593F * 2.0F) * 0.2F + 0.8F;

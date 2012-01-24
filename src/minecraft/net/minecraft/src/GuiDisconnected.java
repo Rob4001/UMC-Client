@@ -1,30 +1,22 @@
-// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) braces deadcode fieldsfirst 
-
 package net.minecraft.src;
 
 import java.util.List;
 import net.minecraft.client.Minecraft;
 
-// Referenced classes of package net.minecraft.src:
-//            GuiScreen, StringTranslate, GuiButton, GuiMainMenu
-
 public class GuiDisconnected extends GuiScreen
 {
-
     private String errorMessage;
     private String errorDetail;
 
-    public GuiDisconnected( String s, String s1, Object aobj[])
+    public GuiDisconnected(String s, String s1, Object aobj[])
     {
-    
         StringTranslate stringtranslate = StringTranslate.getInstance();
         errorMessage = stringtranslate.translateKey(s);
-        if(aobj != null)
+        if (aobj != null)
         {
             errorDetail = stringtranslate.translateKeyFormat(s1, aobj);
-        } else
+        }
+        else
         {
             errorDetail = stringtranslate.translateKey(s1);
         }
