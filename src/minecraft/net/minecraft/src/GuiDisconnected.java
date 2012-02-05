@@ -44,7 +44,7 @@ public class GuiDisconnected extends GuiScreen
         {
             mc.displayGuiScreen(new GuiMainMenu());
         }else if(guibutton.id == 1){
-        	mc.displayGuiScreen(new GuiConnecting(this.mc,this.mc.lastIP,this.mc.lastPort));
+            mc.displayGuiScreen(new GuiConnecting(this.mc,this.mc.lastIP,this.mc.lastPort));
         }
     }
 
