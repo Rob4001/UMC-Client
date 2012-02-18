@@ -2,22 +2,6 @@ package net.minecraft.src;
 
 import java.util.List;
 import net.minecraft.client.Minecraft;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.Random;
-import net.minecraft.client.Minecraft;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.util.glu.GLU;
-import org.lwjgl.Sys;
-import java.util.List;
-import net.minecraft.client.Minecraft;
-import org.lwjgl.opengl.GL11;
-
 
 public class GuiIngameMenu extends GuiScreen
 {
@@ -42,7 +26,12 @@ public class GuiIngameMenu extends GuiScreen
         }
         controlList.add(new GuiButton(4, width / 2 - 100, height / 4 + 24 + byte0, StatCollector.translateToLocal("menu.returnToGame")));
         controlList.add(new GuiButton(0, width / 2 - 100, height / 4 + 96 + byte0, StatCollector.translateToLocal("menu.options")));
-        if (this.mc.isMultiplayerWorld())  controlList.add(new GuiButton(10, width / 2 - 100, height / 4 + 72 + byte0, "Reconnect"));
+      //UMC ModPack
+        if (this.mc.isMultiplayerWorld())
+        {
+        	controlList.add(new GuiButton(10, width / 2 - 100, height / 4 + 72 + byte0, "Reconnect"));
+        }
+        //UMC ModPack
         controlList.add(new GuiButton(5, width / 2 - 100, height / 4 + 48 + byte0, 98, 20, StatCollector.translateToLocal("gui.achievements")));
         controlList.add(new GuiButton(6, width / 2 + 2, height / 4 + 48 + byte0, 98, 20, StatCollector.translateToLocal("gui.stats")));
     }
@@ -76,20 +65,18 @@ public class GuiIngameMenu extends GuiScreen
         {
             mc.displayGuiScreen(new GuiStats(this, mc.statFileWriter));
         }
-		        if(guibutton.id == 10)
-        {
-            mc.statFileWriter.readStat(StatList.leaveGameStat, 1);
-            if(mc.isMultiplayerWorld())
-            {
-                mc.theWorld.sendQuittingDisconnectingPacket();
-            }
-            mc.changeWorld1(null);
-            mc.displayGuiScreen(new GuiConnecting(mc, mc.lastIP, mc.lastPort));
-        }
-        if(guibutton.id == 11)
-        {
-           mc.displayGuiScreen(new GuiTexturePacks(this));
-        }
+      //UMC ModPack Start
+      		if(guibutton.id == 10)
+              {
+                  mc.statFileWriter.readStat(StatList.leaveGameStat, 1);
+                  if(mc.isMultiplayerWorld())
+                  {
+                      mc.theWorld.sendQuittingDisconnectingPacket();
+                  }
+                  mc.changeWorld1(null);
+                  mc.displayGuiScreen(new GuiConnecting(mc, mc.lastIP, mc.lastPort));
+              }
+      		//UMC ModPack End
     }
 
     public void updateScreen()

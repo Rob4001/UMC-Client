@@ -4,25 +4,25 @@ import java.io.*;
 
 public abstract class NBTBase
 {
-    private String key;
+    private String name;
 
-    abstract void writeTagContents(DataOutput dataoutput)
+    abstract void write(DataOutput dataoutput)
     throws IOException;
 
-    abstract void readTagContents(DataInput datainput)
+    abstract void load(DataInput datainput)
     throws IOException;
 
-    public abstract byte getType();
+    public abstract byte getId();
 
     protected NBTBase(String s)
     {
         if (s == null)
         {
-            key = "";
+            name = "";
         }
         else
         {
-            key = s;
+            name = s;
         }
     }
 
@@ -33,43 +33,43 @@ public abstract class NBTBase
             return false;
         }
         NBTBase nbtbase = (NBTBase)obj;
-        if (getType() != nbtbase.getType())
+        if (getId() != nbtbase.getId())
         {
             return false;
         }
-        if (key == null && nbtbase.key != null || key != null && nbtbase.key == null)
+        if (name == null && nbtbase.name != null || name != null && nbtbase.name == null)
         {
             return false;
         }
-        return key == null || key.equals(nbtbase.key);
+        return name == null || name.equals(nbtbase.name);
     }
 
-    public NBTBase setKey(String s)
+    public NBTBase setName(String s)
     {
         if (s == null)
         {
-            key = "";
+            name = "";
         }
         else
         {
-            key = s;
+            name = s;
         }
         return this;
     }
 
-    public String getKey()
+    public String getName()
     {
-        if (key == null)
+        if (name == null)
         {
             return "";
         }
         else
         {
-            return key;
+            return name;
         }
     }
 
-    public static NBTBase readTag(DataInput datainput)
+    public static NBTBase readNamedTag(DataInput datainput)
     throws IOException
     {
         byte byte0 = datainput.readByte();
@@ -80,29 +80,29 @@ public abstract class NBTBase
         else
         {
             String s = datainput.readUTF();
-            NBTBase nbtbase = createTagOfType(byte0, s);
-            nbtbase.readTagContents(datainput);
+            NBTBase nbtbase = newTag(byte0, s);
+            nbtbase.load(datainput);
             return nbtbase;
         }
     }
 
-    public static void writeTag(NBTBase nbtbase, DataOutput dataoutput)
+    public static void writeNamedTag(NBTBase nbtbase, DataOutput dataoutput)
     throws IOException
     {
-        dataoutput.writeByte(nbtbase.getType());
-        if (nbtbase.getType() == 0)
+        dataoutput.writeByte(nbtbase.getId());
+        if (nbtbase.getId() == 0)
         {
             return;
         }
         else
         {
-            dataoutput.writeUTF(nbtbase.getKey());
-            nbtbase.writeTagContents(dataoutput);
+            dataoutput.writeUTF(nbtbase.getName());
+            nbtbase.write(dataoutput);
             return;
         }
     }
 
-    public static NBTBase createTagOfType(byte byte0, String s)
+    public static NBTBase newTag(byte byte0, String s)
     {
         switch (byte0)
         {
@@ -182,5 +182,5 @@ public abstract class NBTBase
         return "UNKNOWN";
     }
 
-    public abstract NBTBase cloneTag();
+    public abstract NBTBase copy();
 }

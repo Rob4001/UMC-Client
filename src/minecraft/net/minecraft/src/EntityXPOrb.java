@@ -6,7 +6,7 @@ public class EntityXPOrb extends Entity
 {
     public int xpColor;
     public int xpOrbAge;
-    public int unusedPickupCooldown;
+    public int field_35126_c;
     private int xpOrbHealth;
     private int xpValue;
 
@@ -69,9 +69,9 @@ public class EntityXPOrb extends Entity
     public void onUpdate()
     {
         super.onUpdate();
-        if (unusedPickupCooldown > 0)
+        if (field_35126_c > 0)
         {
-            unusedPickupCooldown--;
+            field_35126_c--;
         }
         prevPosX = posX;
         prevPosY = posY;
@@ -165,16 +165,16 @@ public class EntityXPOrb extends Entity
 
     public void onCollideWithPlayer(EntityPlayer entityplayer)
     {
-        if (worldObj.multiplayerWorld)
+        if (worldObj.isRemote)
         {
             return;
         }
-        if (unusedPickupCooldown == 0 && entityplayer.xpCooldown == 0)
+        if (field_35126_c == 0 && entityplayer.xpCooldown == 0)
         {
             entityplayer.xpCooldown = 2;
             worldObj.playSoundAtEntity(this, "random.orb", 0.1F, 0.5F * ((rand.nextFloat() - rand.nextFloat()) * 0.7F + 1.8F));
             entityplayer.onItemPickup(this, 1);
-            entityplayer.increaseXP(xpValue);
+            entityplayer.addExperience(xpValue);
             setEntityDead();
         }
     }

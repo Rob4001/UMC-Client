@@ -20,12 +20,12 @@ public class NBTTagList extends NBTBase
         tagList = new ArrayList();
     }
 
-    void writeTagContents(DataOutput dataoutput)
+    void write(DataOutput dataoutput)
     throws IOException
     {
         if (tagList.size() > 0)
         {
-            tagType = ((NBTBase)tagList.get(0)).getType();
+            tagType = ((NBTBase)tagList.get(0)).getId();
         }
         else
         {
@@ -35,11 +35,11 @@ public class NBTTagList extends NBTBase
         dataoutput.writeInt(tagList.size());
         for (int i = 0; i < tagList.size(); i++)
         {
-            ((NBTBase)tagList.get(i)).writeTagContents(dataoutput);
+            ((NBTBase)tagList.get(i)).write(dataoutput);
         }
     }
 
-    void readTagContents(DataInput datainput)
+    void load(DataInput datainput)
     throws IOException
     {
         tagType = datainput.readByte();
@@ -47,13 +47,13 @@ public class NBTTagList extends NBTBase
         tagList = new ArrayList();
         for (int j = 0; j < i; j++)
         {
-            NBTBase nbtbase = NBTBase.createTagOfType(tagType, null);
-            nbtbase.readTagContents(datainput);
+            NBTBase nbtbase = NBTBase.newTag(tagType, null);
+            nbtbase.load(datainput);
             tagList.add(nbtbase);
         }
     }
 
-    public byte getType()
+    public byte getId()
     {
         return 9;
     }
@@ -63,9 +63,9 @@ public class NBTTagList extends NBTBase
         return (new StringBuilder()).append("").append(tagList.size()).append(" entries of type ").append(NBTBase.getTagName(tagType)).toString();
     }
 
-    public void setTag(NBTBase nbtbase)
+    public void appendTag(NBTBase nbtbase)
     {
-        tagType = nbtbase.getType();
+        tagType = nbtbase.getId();
         tagList.add(nbtbase);
     }
 
@@ -79,15 +79,15 @@ public class NBTTagList extends NBTBase
         return tagList.size();
     }
 
-    public NBTBase cloneTag()
+    public NBTBase copy()
     {
-        NBTTagList nbttaglist = new NBTTagList(getKey());
+        NBTTagList nbttaglist = new NBTTagList(getName());
         nbttaglist.tagType = tagType;
         NBTBase nbtbase1;
         for (Iterator iterator = tagList.iterator(); iterator.hasNext(); nbttaglist.tagList.add(nbtbase1))
         {
             NBTBase nbtbase = (NBTBase)iterator.next();
-            nbtbase1 = nbtbase.cloneTag();
+            nbtbase1 = nbtbase.copy();
         }
 
         return nbttaglist;

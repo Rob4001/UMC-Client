@@ -56,7 +56,7 @@ public class GuiMultiplayer extends GuiScreen
     {
         try
         {
-            NBTTagCompound nbttagcompound = CompressedStreamTools.writeMapToFileUncompressed(new File(mc.mcDataDir, "servers.dat"));
+            NBTTagCompound nbttagcompound = CompressedStreamTools.read(new File(mc.mcDataDir, "servers.dat"));
             NBTTagList nbttaglist = nbttagcompound.getTagList("servers");
             serverList.clear();
             for (int i = 0; i < nbttaglist.tagCount(); i++)
@@ -77,12 +77,12 @@ public class GuiMultiplayer extends GuiScreen
             NBTTagList nbttaglist = new NBTTagList();
             for (int i = 0; i < serverList.size(); i++)
             {
-                nbttaglist.setTag(((ServerNBTStorage)serverList.get(i)).getCompoundTag());
+                nbttaglist.appendTag(((ServerNBTStorage)serverList.get(i)).getCompoundTag());
             }
 
             NBTTagCompound nbttagcompound = new NBTTagCompound();
             nbttagcompound.setTag("servers", nbttaglist);
-            CompressedStreamTools.saveMapToFileWithBackup(nbttagcompound, new File(mc.mcDataDir, "servers.dat"));
+            CompressedStreamTools.safeWrite(nbttagcompound, new File(mc.mcDataDir, "servers.dat"));
         }
         catch (Exception exception)
         {

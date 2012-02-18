@@ -74,12 +74,12 @@ public class EntityWolf extends EntityAnimal
     {
         super.readEntityFromNBT(nbttagcompound);
         setAngry(nbttagcompound.getBoolean("Angry"));
-        setIsSitting(nbttagcompound.getBoolean("Sitting"));
+        setSitting(nbttagcompound.getBoolean("Sitting"));
         String s = nbttagcompound.getString("Owner");
         if (s.length() > 0)
         {
             setOwner(s);
-            setIsTamed(true);
+            setTamed(true);
         }
     }
 
@@ -142,12 +142,12 @@ public class EntityWolf extends EntityAnimal
                 float f = entityplayer.getDistanceToEntity(this);
                 if (f > 5F)
                 {
-                    getPathOrWalkableBlock(entityplayer, f);
+                    setPathEntity(entityplayer, f);
                 }
             }
             else if (!isInWater())
             {
-                setIsSitting(true);
+                setSitting(true);
             }
         }
         else if (entityToAttack == null && !hasPath() && !isTamed() && worldObj.rand.nextInt(100) == 0)
@@ -155,14 +155,14 @@ public class EntityWolf extends EntityAnimal
             List list = worldObj.getEntitiesWithinAABB(net.minecraft.src.EntitySheep.class, AxisAlignedBB.getBoundingBoxFromPool(posX, posY, posZ, posX + 1.0D, posY + 1.0D, posZ + 1.0D).expand(16D, 4D, 16D));
             if (!list.isEmpty())
             {
-                setEntityToAttack((Entity)list.get(worldObj.rand.nextInt(list.size())));
+                setTarget((Entity)list.get(worldObj.rand.nextInt(list.size())));
             }
         }
         if (isInWater())
         {
-            setIsSitting(false);
+            setSitting(false);
         }
-        if (!worldObj.multiplayerWorld)
+        if (!worldObj.isRemote)
         {
             dataWatcher.updateObject(18, Integer.valueOf(getEntityHealth()));
         }
@@ -187,12 +187,12 @@ public class EntityWolf extends EntityAnimal
                     }
                     else if (isTamed() && (Item.itemsList[itemstack.itemID] instanceof ItemFood))
                     {
-                        looksWithInterest = ((ItemFood)Item.itemsList[itemstack.itemID]).getIsWolfsFavoriteMeat();
+                        looksWithInterest = ((ItemFood)Item.itemsList[itemstack.itemID]).isWolfsFavoriteMeat();
                     }
                 }
             }
         }
-        if (!worldObj.multiplayerWorld && isShaking && !field_25052_g && !hasPath() && onGround)
+        if (!worldObj.isRemote && isShaking && !field_25052_g && !hasPath() && onGround)
         {
             field_25052_g = true;
             timeWolfIsShaking = 0.0F;
@@ -299,7 +299,7 @@ public class EntityWolf extends EntityAnimal
         }
     }
 
-    private void getPathOrWalkableBlock(Entity entity, float f)
+    private void setPathEntity(Entity entity, float f)
     {
         PathEntity pathentity = worldObj.getPathToEntity(this, entity, 16F);
         if (pathentity == null && f > 12F)
@@ -333,7 +333,7 @@ public class EntityWolf extends EntityAnimal
     public boolean attackEntityFrom(DamageSource damagesource, int i)
     {
         Entity entity = damagesource.getEntity();
-        setIsSitting(false);
+        setSitting(false);
         if (entity != null && !(entity instanceof EntityPlayer) && !(entity instanceof EntityArrow))
         {
             i = (i + 1) / 2;
@@ -441,13 +441,13 @@ public class EntityWolf extends EntityAnimal
                 {
                     entityplayer.inventory.setInventorySlotContents(entityplayer.inventory.currentItem, null);
                 }
-                if (!worldObj.multiplayerWorld)
+                if (!worldObj.isRemote)
                 {
                     if (rand.nextInt(3) == 0)
                     {
-                        setIsTamed(true);
+                        setTamed(true);
                         setPathToEntity(null);
-                        setIsSitting(true);
+                        setSitting(true);
                         setEntityHealth(20);
                         setOwner(entityplayer.username);
                         showHeartsOrSmokeFX(true);
@@ -467,7 +467,7 @@ public class EntityWolf extends EntityAnimal
             if (itemstack != null && (Item.itemsList[itemstack.itemID] instanceof ItemFood))
             {
                 ItemFood itemfood = (ItemFood)Item.itemsList[itemstack.itemID];
-                if (itemfood.getIsWolfsFavoriteMeat() && dataWatcher.getWatchableObjectInt(18) < 20)
+                if (itemfood.isWolfsFavoriteMeat() && dataWatcher.getWatchableObjectInt(18) < 20)
                 {
                     itemstack.stackSize--;
                     heal(itemfood.getHealAmount());
@@ -480,9 +480,9 @@ public class EntityWolf extends EntityAnimal
             }
             if (entityplayer.username.equalsIgnoreCase(getOwner()))
             {
-                if (!worldObj.multiplayerWorld)
+                if (!worldObj.isRemote)
                 {
-                    setIsSitting(!isSitting());
+                    setSitting(!isSitting());
                     isJumping = false;
                     setPathToEntity(null);
                 }
@@ -566,7 +566,7 @@ public class EntityWolf extends EntityAnimal
         return (dataWatcher.getWatchableObjectByte(16) & 1) != 0;
     }
 
-    public void setIsSitting(boolean flag)
+    public void setSitting(boolean flag)
     {
         byte byte0 = dataWatcher.getWatchableObjectByte(16);
         if (flag)
@@ -602,7 +602,7 @@ public class EntityWolf extends EntityAnimal
         return (dataWatcher.getWatchableObjectByte(16) & 4) != 0;
     }
 
-    public void setIsTamed(boolean flag)
+    public void setTamed(boolean flag)
     {
         byte byte0 = dataWatcher.getWatchableObjectByte(16);
         if (flag)

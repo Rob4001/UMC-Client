@@ -64,7 +64,7 @@ public class ChunkLoader
             try
             {
                 FileInputStream fileinputstream = new FileInputStream(file);
-                NBTTagCompound nbttagcompound = CompressedStreamTools.loadGzippedCompoundFromOutputStream(fileinputstream);
+                NBTTagCompound nbttagcompound = CompressedStreamTools.readCompressed(fileinputstream);
                 if (!nbttagcompound.hasKey("Level"))
                 {
                     System.out.println((new StringBuilder()).append("Chunk file at ").append(i).append(",").append(j).append(" is missing level data, skipping").toString());
@@ -112,7 +112,7 @@ public class ChunkLoader
             NBTTagCompound nbttagcompound1 = new NBTTagCompound();
             nbttagcompound.setTag("Level", nbttagcompound1);
             storeChunkInCompound(chunk, world, nbttagcompound1);
-            CompressedStreamTools.writeGzippedCompoundToOutputStream(nbttagcompound, fileoutputstream);
+            CompressedStreamTools.writeCompressed(nbttagcompound, fileoutputstream);
             fileoutputstream.close();
             if (file.exists())
             {
@@ -157,7 +157,7 @@ public class ChunkLoader
                 NBTTagCompound nbttagcompound1 = new NBTTagCompound();
                 if (entity.addEntityID(nbttagcompound1))
                 {
-                    nbttaglist.setTag(nbttagcompound1);
+                    nbttaglist.appendTag(nbttagcompound1);
                 }
             }
             while (true);
@@ -166,7 +166,7 @@ public class ChunkLoader
         nbttagcompound.setTag("Entities", nbttaglist);
         NBTTagList nbttaglist1 = new NBTTagList();
         NBTTagCompound nbttagcompound2;
-        for (Iterator iterator1 = chunk.chunkTileEntityMap.values().iterator(); iterator1.hasNext(); nbttaglist1.setTag(nbttagcompound2))
+        for (Iterator iterator1 = chunk.chunkTileEntityMap.values().iterator(); iterator1.hasNext(); nbttaglist1.appendTag(nbttagcompound2))
         {
             TileEntity tileentity = (TileEntity)iterator1.next();
             nbttagcompound2 = new NBTTagCompound();
@@ -180,7 +180,7 @@ public class ChunkLoader
             long l = world.getWorldTime();
             NBTTagList nbttaglist2 = new NBTTagList();
             NBTTagCompound nbttagcompound3;
-            for (Iterator iterator2 = list.iterator(); iterator2.hasNext(); nbttaglist2.setTag(nbttagcompound3))
+            for (Iterator iterator2 = list.iterator(); iterator2.hasNext(); nbttaglist2.appendTag(nbttagcompound3))
             {
                 NextTickListEntry nextticklistentry = (NextTickListEntry)iterator2.next();
                 nbttagcompound3 = new NBTTagCompound();
@@ -263,7 +263,7 @@ public class ChunkLoader
         return chunk;
     }
 
-    public void func_814_a()
+    public void chunkTick()
     {
     }
 

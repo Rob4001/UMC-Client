@@ -150,7 +150,7 @@ public class InventoryPlayer
             mainInventory[l] = new ItemStack(i, 0, itemstack.getItemDamage());
             if (itemstack.hasTagCompound())
             {
-                mainInventory[l].setTagCompound((NBTTagCompound)itemstack.getTagCompound().cloneTag());
+                mainInventory[l].setTagCompound((NBTTagCompound)itemstack.getTagCompound().copy());
             }
         }
         int i1 = j;
@@ -305,7 +305,7 @@ public class InventoryPlayer
                 NBTTagCompound nbttagcompound = new NBTTagCompound();
                 nbttagcompound.setByte("Slot", (byte)i);
                 mainInventory[i].writeToNBT(nbttagcompound);
-                nbttaglist.setTag(nbttagcompound);
+                nbttaglist.appendTag(nbttagcompound);
             }
         }
 
@@ -316,7 +316,7 @@ public class InventoryPlayer
                 NBTTagCompound nbttagcompound1 = new NBTTagCompound();
                 nbttagcompound1.setByte("Slot", (byte)(j + 100));
                 armorInventory[j].writeToNBT(nbttagcompound1);
-                nbttaglist.setTag(nbttagcompound1);
+                nbttaglist.appendTag(nbttagcompound1);
             }
         }
 
@@ -388,7 +388,7 @@ public class InventoryPlayer
 
     public boolean canHarvestBlock(Block block)
     {
-        if (block.blockMaterial.getIsHarvestable())
+        if (block.blockMaterial.isHarvestable())
         {
             return true;
         }

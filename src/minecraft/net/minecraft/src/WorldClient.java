@@ -62,7 +62,7 @@ public class WorldClient extends World
         }
     }
 
-    protected IChunkProvider getChunkProvider()
+    protected IChunkProvider createChunkProvider()
     {
         field_20915_C = new ChunkProviderClient(this);
         return field_20915_C;
@@ -73,7 +73,7 @@ public class WorldClient extends World
         setSpawnPoint(new ChunkCoordinates(8, 64, 8));
     }
 
-    protected void updateBlocksAndPlayCaveSounds()
+    protected void tickBlocksAndAmbiance()
     {
     }
 
@@ -230,7 +230,7 @@ public class WorldClient extends World
 
     public void sendQuittingDisconnectingPacket()
     {
-        sendQueue.func_28117_a(new Packet255KickDisconnect("Quitting"));
+        sendQueue.quitWithPacket(new Packet255KickDisconnect("Quitting"));
     }
 
     protected void updateWeather()
@@ -244,7 +244,7 @@ public class WorldClient extends World
             lastLightningBolt--;
         }
         prevRainingStrength = rainingStrength;
-        if (worldInfo.getIsRaining())
+        if (worldInfo.isRaining())
         {
             rainingStrength += 0.01D;
         }
@@ -261,7 +261,7 @@ public class WorldClient extends World
             rainingStrength = 1.0F;
         }
         prevThunderingStrength = thunderingStrength;
-        if (worldInfo.getIsThundering())
+        if (worldInfo.isThundering())
         {
             thunderingStrength += 0.01D;
         }

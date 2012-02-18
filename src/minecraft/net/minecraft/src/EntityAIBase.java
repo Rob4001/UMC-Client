@@ -9,14 +9,14 @@ abstract class EntityAIBase
         field_46085_a = 0;
     }
 
-    public abstract boolean func_46082_a();
+    public abstract boolean shouldExecute();
 
-    public boolean func_46084_g()
+    public boolean continueExecuting()
     {
-        return func_46082_a();
+        return shouldExecute();
     }
 
-    public boolean func_46078_f()
+    public boolean isContinous()
     {
         return true;
     }
@@ -25,11 +25,11 @@ abstract class EntityAIBase
     {
     }
 
-    public void func_46077_d()
+    public void resetTask()
     {
     }
 
-    public void func_46081_b()
+    public void updateTask()
     {
     }
 

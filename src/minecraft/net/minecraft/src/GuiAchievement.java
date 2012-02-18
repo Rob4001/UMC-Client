@@ -105,7 +105,7 @@ public class GuiAchievement extends Gui
             theGame.fontRenderer.drawString(achievementGetLocalText, i + 30, j + 7, -256);
             theGame.fontRenderer.drawString(achievementStatName, i + 30, j + 18, -1);
         }
-        RenderHelper.func_41089_c();
+        RenderHelper.enableGUIStandardItemLighting();
         GL11.glDisable(2896 /*GL_LIGHTING*/);
         GL11.glEnable(32826 /*GL_RESCALE_NORMAL_EXT*/);
         GL11.glEnable(2903 /*GL_COLOR_MATERIAL*/);

@@ -68,8 +68,8 @@ public class GameSettings
     public float fovSetting;
     public float gammaSetting;
     public int guiScale;
-    public int particles;
-    public String field_44018_Q;
+    public int particleSetting;
+    public String language;
 
     public GameSettings(Minecraft minecraft, File file)
     {
@@ -117,8 +117,8 @@ public class GameSettings
         fovSetting = 0.0F;
         gammaSetting = 0.0F;
         guiScale = 0;
-        particles = 0;
-        field_44018_Q = "en_US";
+        particleSetting = 0;
+        language = "en_US";
         mc = minecraft;
         optionsFile = new File(file, "options.txt");
         loadOptions();
@@ -170,8 +170,8 @@ public class GameSettings
         fovSetting = 0.0F;
         gammaSetting = 0.0F;
         guiScale = 0;
-        particles = 0;
-        field_44018_Q = "en_US";
+        particleSetting = 0;
+        language = "en_US";
     }
 
     public String getKeyBindingDescription(int i)
@@ -249,7 +249,7 @@ public class GameSettings
         }
         if (enumoptions == EnumOptions.PARTICLES)
         {
-            particles = (particles + i) % 3;
+            particleSetting = (particleSetting + i) % 3;
         }
         if (enumoptions == EnumOptions.VIEW_BOBBING)
         {
@@ -430,7 +430,7 @@ public class GameSettings
         }
         if (enumoptions == EnumOptions.PARTICLES)
         {
-            return (new StringBuilder()).append(s).append(stringtranslate.translateKey(PARTICLES[particles])).toString();
+            return (new StringBuilder()).append(s).append(stringtranslate.translateKey(PARTICLES[particleSetting])).toString();
         }
         if (enumoptions == EnumOptions.FRAMERATE_LIMIT)
         {
@@ -501,7 +501,7 @@ public class GameSettings
                     }
                     if (as[0].equals("particles"))
                     {
-                        particles = Integer.parseInt(as[1]);
+                        particleSetting = Integer.parseInt(as[1]);
                     }
                     if (as[0].equals("bobView"))
                     {
@@ -545,7 +545,7 @@ public class GameSettings
                     }
                     if (as[0].equals("lang") && as.length >= 2)
                     {
-                        field_44018_Q = as[1];
+                        language = as[1];
                     }
                     int i = 0;
                     while (i < keyBindings.length)
@@ -602,7 +602,7 @@ public class GameSettings
             printwriter.println((new StringBuilder()).append("gamma:").append(gammaSetting).toString());
             printwriter.println((new StringBuilder()).append("viewDistance:").append(renderDistance).toString());
             printwriter.println((new StringBuilder()).append("guiScale:").append(guiScale).toString());
-            printwriter.println((new StringBuilder()).append("particles:").append(particles).toString());
+            printwriter.println((new StringBuilder()).append("particles:").append(particleSetting).toString());
             printwriter.println((new StringBuilder()).append("bobView:").append(viewBobbing).toString());
             printwriter.println((new StringBuilder()).append("anaglyph3d:").append(anaglyph).toString());
             printwriter.println((new StringBuilder()).append("advancedOpengl:").append(advancedOpengl).toString());
@@ -613,7 +613,7 @@ public class GameSettings
             printwriter.println((new StringBuilder()).append("clouds:").append(clouds).toString());
             printwriter.println((new StringBuilder()).append("skin:").append(skin).toString());
             printwriter.println((new StringBuilder()).append("lastServer:").append(lastServer).toString());
-            printwriter.println((new StringBuilder()).append("lang:").append(field_44018_Q).toString());
+            printwriter.println((new StringBuilder()).append("lang:").append(language).toString());
             for (int i = 0; i < keyBindings.length; i++)
             {
                 printwriter.println((new StringBuilder()).append("key_").append(keyBindings[i].keyDescription).append(":").append(keyBindings[i].keyCode).toString());

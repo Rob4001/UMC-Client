@@ -33,7 +33,7 @@ class NetworkWriterThread extends Thread
                 }
                 catch (IOException ioexception)
                 {
-                    if (!NetworkManager.getIsTerminating(netManager))
+                    if (!NetworkManager.isTerminating(netManager))
                     {
                         NetworkManager.func_30005_a(netManager, ioexception);
                     }

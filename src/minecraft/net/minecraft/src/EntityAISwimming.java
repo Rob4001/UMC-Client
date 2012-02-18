@@ -12,14 +12,14 @@ public class EntityAISwimming extends EntityAIBase
         func_46079_a(4);
     }
 
-    public boolean func_46082_a()
+    public boolean shouldExecute()
     {
-        return field_46106_a.func_46004_aK().nextFloat() < 0.8F && (field_46106_a.isInWater() || field_46106_a.handleLavaMovement());
+        return field_46106_a.getRNG().nextFloat() < 0.8F && (field_46106_a.isInWater() || field_46106_a.handleLavaMovement());
     }
 
     public void func_46080_e()
     {
-        field_46106_a.func_46005_aI().func_46129_a();
+        field_46106_a.getJumpHelper().setJumping();
     }
 
     public int func_46083_c()
@@ -32,23 +32,23 @@ public class EntityAISwimming extends EntityAIBase
         super.func_46079_a(i);
     }
 
-    public void func_46081_b()
+    public void updateTask()
     {
-        super.func_46081_b();
+        super.updateTask();
     }
 
-    public void func_46077_d()
+    public void resetTask()
     {
-        super.func_46077_d();
+        super.resetTask();
     }
 
-    public boolean func_46078_f()
+    public boolean isContinous()
     {
-        return super.func_46078_f();
+        return super.isContinous();
     }
 
-    public boolean func_46084_g()
+    public boolean continueExecuting()
     {
-        return super.func_46084_g();
+        return super.continueExecuting();
     }
 }

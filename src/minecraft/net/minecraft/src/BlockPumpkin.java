@@ -76,7 +76,7 @@ public class BlockPumpkin extends Block
         super.onBlockAdded(world, i, j, k);
         if (world.getBlockId(i, j - 1, k) == Block.blockSnow.blockID && world.getBlockId(i, j - 2, k) == Block.blockSnow.blockID)
         {
-            if (!world.multiplayerWorld)
+            if (!world.isRemote)
             {
                 world.setBlockWithNotify(i, j, k, 0);
                 world.setBlockWithNotify(i, j - 1, k, 0);
@@ -95,7 +95,7 @@ public class BlockPumpkin extends Block
     public boolean canPlaceBlockAt(World world, int i, int j, int k)
     {
         int l = world.getBlockId(i, j, k);
-        return (l == 0 || Block.blocksList[l].blockMaterial.getIsGroundCover()) && world.isBlockNormalCube(i, j - 1, k);
+        return (l == 0 || Block.blocksList[l].blockMaterial.isGroundCover()) && world.isBlockNormalCube(i, j - 1, k);
     }
 
     public void onBlockPlacedBy(World world, int i, int j, int k, EntityLiving entityliving)

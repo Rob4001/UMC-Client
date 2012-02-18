@@ -3,7 +3,7 @@ package net.minecraft.src;
 public class ModelCreeper extends ModelBase
 {
     public ModelRenderer head;
-    public ModelRenderer unusedCreeperHeadwear;
+    public ModelRenderer field_1270_b;
     public ModelRenderer body;
     public ModelRenderer leg1;
     public ModelRenderer leg2;
@@ -21,9 +21,9 @@ public class ModelCreeper extends ModelBase
         head = new ModelRenderer(this, 0, 0);
         head.addBox(-4F, -8F, -4F, 8, 8, 8, f);
         head.setRotationPoint(0.0F, i, 0.0F);
-        unusedCreeperHeadwear = new ModelRenderer(this, 32, 0);
-        unusedCreeperHeadwear.addBox(-4F, -8F, -4F, 8, 8, 8, f + 0.5F);
-        unusedCreeperHeadwear.setRotationPoint(0.0F, i, 0.0F);
+        field_1270_b = new ModelRenderer(this, 32, 0);
+        field_1270_b.addBox(-4F, -8F, -4F, 8, 8, 8, f + 0.5F);
+        field_1270_b.setRotationPoint(0.0F, i, 0.0F);
         body = new ModelRenderer(this, 16, 16);
         body.addBox(-4F, 0.0F, -2F, 8, 12, 4, f);
         body.setRotationPoint(0.0F, i, 0.0F);

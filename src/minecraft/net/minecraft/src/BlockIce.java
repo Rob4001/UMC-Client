@@ -25,7 +25,7 @@ public class BlockIce extends BlockBreakable
     {
         super.harvestBlock(world, entityplayer, i, j, k, l);
         Material material = world.getBlockMaterial(i, j - 1, k);
-        if (material.getIsSolid() || material.getIsLiquid())
+        if (material.blocksMovement() || material.isLiquid())
         {
             world.setBlockWithNotify(i, j, k, Block.waterMoving.blockID);
         }

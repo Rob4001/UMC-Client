@@ -17,7 +17,7 @@ public class MaterialLogic extends Material
         return false;
     }
 
-    public boolean getIsSolid()
+    public boolean blocksMovement()
     {
         return false;
     }

@@ -18,9 +18,9 @@ public class EntityAIWatchClosest extends EntityAIBase
         func_46079_a(3);
     }
 
-    public boolean func_46082_a()
+    public boolean shouldExecute()
     {
-        if (field_46105_a.func_46004_aK().nextFloat() >= 0.02F)
+        if (field_46105_a.getRNG().nextFloat() >= 0.02F)
         {
             return false;
         }
@@ -28,7 +28,7 @@ public class EntityAIWatchClosest extends EntityAIBase
         return field_46103_b != null;
     }
 
-    public boolean func_46084_g()
+    public boolean continueExecuting()
     {
         if (!field_46103_b.isEntityAlive())
         {
@@ -46,17 +46,17 @@ public class EntityAIWatchClosest extends EntityAIBase
 
     public void func_46080_e()
     {
-        field_46102_e = 40 + field_46105_a.func_46004_aK().nextInt(40);
+        field_46102_e = 40 + field_46105_a.getRNG().nextInt(40);
     }
 
-    public void func_46077_d()
+    public void resetTask()
     {
         field_46103_b = null;
     }
 
-    public void func_46081_b()
+    public void updateTask()
     {
-        field_46105_a.func_46008_aG().func_46143_a(field_46103_b.posX, field_46103_b.posY + (double)field_46103_b.getEyeHeight(), field_46103_b.posZ, 10F, field_46105_a.getVerticalFaceSpeed());
+        field_46105_a.getLookHelper().setLookPosition(field_46103_b.posX, field_46103_b.posY + (double)field_46103_b.getEyeHeight(), field_46103_b.posZ, 10F, field_46105_a.getVerticalFaceSpeed());
         field_46102_e--;
     }
 
@@ -70,8 +70,8 @@ public class EntityAIWatchClosest extends EntityAIBase
         super.func_46079_a(i);
     }
 
-    public boolean func_46078_f()
+    public boolean isContinous()
     {
-        return super.func_46078_f();
+        return super.isContinous();
     }
 }

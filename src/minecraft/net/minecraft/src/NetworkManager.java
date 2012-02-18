@@ -274,7 +274,7 @@ public class NetworkManager
         return networkmanager.socketOutputStream;
     }
 
-    static boolean getIsTerminating(NetworkManager networkmanager)
+    static boolean isTerminating(NetworkManager networkmanager)
     {
         return networkmanager.isTerminating;
     }

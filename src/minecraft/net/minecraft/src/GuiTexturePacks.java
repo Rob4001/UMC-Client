@@ -11,7 +11,7 @@ public class GuiTexturePacks extends GuiScreen
     private int refreshTimer;
     private String fileLocation;
     private GuiTexturePackSlot guiTexturePackSlot;
-    private ThreadDownloadTexture txtDownloadThread;
+    private ThreadDownloadTexture txtDownloadThread; //UMC
 
     public GuiTexturePacks(GuiScreen guiscreen)
     {
@@ -20,6 +20,7 @@ public class GuiTexturePacks extends GuiScreen
         guiScreen = guiscreen;
     }
 
+  //UMC Start
     public void initGui()
     {
         StringTranslate stringtranslate = StringTranslate.getInstance();
@@ -31,6 +32,7 @@ public class GuiTexturePacks extends GuiScreen
         guiTexturePackSlot = new GuiTexturePackSlot(this);
         guiTexturePackSlot.registerScrollButtons(controlList, 7, 8);
     }
+    
 
     protected void actionPerformed(GuiButton guibutton)
     {
@@ -41,9 +43,6 @@ public class GuiTexturePacks extends GuiScreen
         if(guibutton.id == 5)
         {
             Sys.openURL((new StringBuilder()).append("file://").append(fileLocation).toString());
-            //Sys.openURL("http://www.zyrain.org/gravypod/pack/pack.zip");
-            
-            //TODO: Find a way of Downloading Straight from web to dir 
            
         } else
         if(guibutton.id == 6)
@@ -53,12 +52,12 @@ public class GuiTexturePacks extends GuiScreen
         } else if(guibutton.id == 9){
         	txtDownloadThread = new ThreadDownloadTexture(mc.getMinecraftDir(),mc);
         	txtDownloadThread.start();
-        	//mc.texturePackList.updateAvaliableTexturePacks();
         }else
         {
             guiTexturePackSlot.actionPerformed(guibutton);
         }
     }
+  //UMC End
 
     protected void mouseClicked(int i, int j, int k)
     {

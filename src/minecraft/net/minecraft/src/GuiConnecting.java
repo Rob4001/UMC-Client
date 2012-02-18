@@ -14,8 +14,6 @@ public class GuiConnecting extends GuiScreen
         cancelled = false;
         System.out.println((new StringBuilder()).append("Connecting to ").append(s).append(", ").append(i).toString());
         minecraft.changeWorld1(null);
-        minecraft.lastIP = s;
-        minecraft.lastPort = i;
         (new ThreadConnectToServer(this, minecraft, s, i)).start();
     }
 

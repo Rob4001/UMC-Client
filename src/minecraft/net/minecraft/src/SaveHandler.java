@@ -11,7 +11,7 @@ public class SaveHandler
     private final File saveDirectory;
     private final File playersDirectory;
     private final File mapDataDir;
-    private final long now = System.currentTimeMillis();
+    private final long initializationTime = System.currentTimeMillis();
     private final String saveDirectoryName;
 
     public SaveHandler(File file, String s, boolean flag)
@@ -26,10 +26,10 @@ public class SaveHandler
         {
             playersDirectory.mkdirs();
         }
-        createSessionLock();
+        setSessionLock();
     }
 
-    private void createSessionLock()
+    private void setSessionLock()
     {
         try
         {
@@ -37,7 +37,7 @@ public class SaveHandler
             DataOutputStream dataoutputstream = new DataOutputStream(new FileOutputStream(file));
             try
             {
-                dataoutputstream.writeLong(now);
+                dataoutputstream.writeLong(initializationTime);
             }
             finally
             {
@@ -64,7 +64,7 @@ public class SaveHandler
             DataInputStream datainputstream = new DataInputStream(new FileInputStream(file));
             try
             {
-                if (datainputstream.readLong() != now)
+                if (datainputstream.readLong() != initializationTime)
                 {
                     throw new MinecraftException("The save is being accessed from another location, aborting");
                 }
@@ -107,7 +107,7 @@ public class SaveHandler
         {
             try
             {
-                NBTTagCompound nbttagcompound = CompressedStreamTools.loadGzippedCompoundFromOutputStream(new FileInputStream(file));
+                NBTTagCompound nbttagcompound = CompressedStreamTools.readCompressed(new FileInputStream(file));
                 NBTTagCompound nbttagcompound2 = nbttagcompound.getCompoundTag("Data");
                 return new WorldInfo(nbttagcompound2);
             }
@@ -121,7 +121,7 @@ public class SaveHandler
         {
             try
             {
-                NBTTagCompound nbttagcompound1 = CompressedStreamTools.loadGzippedCompoundFromOutputStream(new FileInputStream(file));
+                NBTTagCompound nbttagcompound1 = CompressedStreamTools.readCompressed(new FileInputStream(file));
                 NBTTagCompound nbttagcompound3 = nbttagcompound1.getCompoundTag("Data");
                 return new WorldInfo(nbttagcompound3);
             }
@@ -135,7 +135,7 @@ public class SaveHandler
 
     public void saveWorldInfoAndPlayer(WorldInfo worldinfo, List list)
     {
-        NBTTagCompound nbttagcompound = worldinfo.getNBTTagCompoundWithPlayer(list);
+        NBTTagCompound nbttagcompound = worldinfo.getNBTTagCompoundWithPlayers(list);
         NBTTagCompound nbttagcompound1 = new NBTTagCompound();
         nbttagcompound1.setTag("Data", nbttagcompound);
         try
@@ -143,7 +143,7 @@ public class SaveHandler
             File file = new File(saveDirectory, "level.dat_new");
             File file1 = new File(saveDirectory, "level.dat_old");
             File file2 = new File(saveDirectory, "level.dat");
-            CompressedStreamTools.writeGzippedCompoundToOutputStream(nbttagcompound1, new FileOutputStream(file));
+            CompressedStreamTools.writeCompressed(nbttagcompound1, new FileOutputStream(file));
             if (file1.exists())
             {
                 file1.delete();
@@ -175,7 +175,7 @@ public class SaveHandler
             File file = new File(saveDirectory, "level.dat_new");
             File file1 = new File(saveDirectory, "level.dat_old");
             File file2 = new File(saveDirectory, "level.dat");
-            CompressedStreamTools.writeGzippedCompoundToOutputStream(nbttagcompound1, new FileOutputStream(file));
+            CompressedStreamTools.writeCompressed(nbttagcompound1, new FileOutputStream(file));
             if (file1.exists())
             {
                 file1.delete();
@@ -197,7 +197,7 @@ public class SaveHandler
         }
     }
 
-    public File getMapFile(String s)
+    public File getMapFileFromName(String s)
     {
         return new File(mapDataDir, (new StringBuilder()).append(s).append(".dat").toString());
     }

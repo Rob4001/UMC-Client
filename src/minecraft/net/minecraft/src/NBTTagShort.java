@@ -4,7 +4,7 @@ import java.io.*;
 
 public class NBTTagShort extends NBTBase
 {
-    public short shortValue;
+    public short data;
 
     public NBTTagShort(String s)
     {
@@ -14,34 +14,34 @@ public class NBTTagShort extends NBTBase
     public NBTTagShort(String s, short word0)
     {
         super(s);
-        shortValue = word0;
+        data = word0;
     }
 
-    void writeTagContents(DataOutput dataoutput)
+    void write(DataOutput dataoutput)
     throws IOException
     {
-        dataoutput.writeShort(shortValue);
+        dataoutput.writeShort(data);
     }
 
-    void readTagContents(DataInput datainput)
+    void load(DataInput datainput)
     throws IOException
     {
-        shortValue = datainput.readShort();
+        data = datainput.readShort();
     }
 
-    public byte getType()
+    public byte getId()
     {
         return 2;
     }
 
     public String toString()
     {
-        return (new StringBuilder()).append("").append(shortValue).toString();
+        return (new StringBuilder()).append("").append(data).toString();
     }
 
-    public NBTBase cloneTag()
+    public NBTBase copy()
     {
-        return new NBTTagShort(getKey(), shortValue);
+        return new NBTTagShort(getName(), data);
     }
 
     public boolean equals(Object obj)
@@ -49,7 +49,7 @@ public class NBTTagShort extends NBTBase
         if (super.equals(obj))
         {
             NBTTagShort nbttagshort = (NBTTagShort)obj;
-            return shortValue == nbttagshort.shortValue;
+            return data == nbttagshort.data;
         }
         else
         {

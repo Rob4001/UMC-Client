@@ -55,7 +55,7 @@ public class SaveFormatOld
         {
             try
             {
-                NBTTagCompound nbttagcompound = CompressedStreamTools.loadGzippedCompoundFromOutputStream(new FileInputStream(file1));
+                NBTTagCompound nbttagcompound = CompressedStreamTools.readCompressed(new FileInputStream(file1));
                 NBTTagCompound nbttagcompound2 = nbttagcompound.getCompoundTag("Data");
                 return new WorldInfo(nbttagcompound2);
             }
@@ -69,7 +69,7 @@ public class SaveFormatOld
         {
             try
             {
-                NBTTagCompound nbttagcompound1 = CompressedStreamTools.loadGzippedCompoundFromOutputStream(new FileInputStream(file1));
+                NBTTagCompound nbttagcompound1 = CompressedStreamTools.readCompressed(new FileInputStream(file1));
                 NBTTagCompound nbttagcompound3 = nbttagcompound1.getCompoundTag("Data");
                 return new WorldInfo(nbttagcompound3);
             }
@@ -93,10 +93,10 @@ public class SaveFormatOld
         {
             try
             {
-                NBTTagCompound nbttagcompound = CompressedStreamTools.loadGzippedCompoundFromOutputStream(new FileInputStream(file1));
+                NBTTagCompound nbttagcompound = CompressedStreamTools.readCompressed(new FileInputStream(file1));
                 NBTTagCompound nbttagcompound1 = nbttagcompound.getCompoundTag("Data");
                 nbttagcompound1.setString("LevelName", s1);
-                CompressedStreamTools.writeGzippedCompoundToOutputStream(nbttagcompound, new FileOutputStream(file1));
+                CompressedStreamTools.writeCompressed(nbttagcompound, new FileOutputStream(file1));
             }
             catch (Exception exception)
             {

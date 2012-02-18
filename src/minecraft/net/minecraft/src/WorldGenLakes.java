@@ -57,7 +57,7 @@ public class WorldGenLakes extends WorldGenerator
                         continue;
                     }
                     Material material = world.getBlockMaterial(i + j1, j + l3, k + k2);
-                    if (l3 >= 4 && material.getIsLiquid())
+                    if (l3 >= 4 && material.isLiquid())
                     {
                         return false;
                     }

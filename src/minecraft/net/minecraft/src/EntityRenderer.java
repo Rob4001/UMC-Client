@@ -61,8 +61,8 @@ public class EntityRenderer
     private int rainSoundCounter;
     float rainXCoords[];
     float rainYCoords[];
-    volatile int unusedVolatile0;
-    volatile int unusedVolatile1;
+    volatile int field_1394_b;
+    volatile int field_1393_c;
     FloatBuffer fogColorBuffer;
     float fogColorRed;
     float fogColorGreen;
@@ -104,8 +104,8 @@ public class EntityRenderer
         torchFlickerDY = 0.0F;
         random = new Random();
         rainSoundCounter = 0;
-        unusedVolatile0 = 0;
-        unusedVolatile1 = 0;
+        field_1394_b = 0;
+        field_1393_c = 0;
         fogColorBuffer = GLAllocation.createDirectFloatBuffer(16);
         mc = minecraft;
         itemRenderer = new ItemRenderer(minecraft);
@@ -824,7 +824,7 @@ public class EntityRenderer
         double d1 = entityliving.lastTickPosY + (entityliving.posY - entityliving.lastTickPosY) * (double)f;
         double d2 = entityliving.lastTickPosZ + (entityliving.posZ - entityliving.lastTickPosZ) * (double)f;
         Profiler.endStartSection("center");
-        IChunkProvider ichunkprovider = mc.theWorld.getIChunkProvider();
+        IChunkProvider ichunkprovider = mc.theWorld.getChunkProvider();
         if (ichunkprovider instanceof ChunkProviderLoadOrGenerate)
         {
             ChunkProviderLoadOrGenerate chunkproviderloadorgenerate = (ChunkProviderLoadOrGenerate)ichunkprovider;
@@ -1026,11 +1026,11 @@ public class EntityRenderer
         double d2 = 0.0D;
         int l = 0;
         int i1 = (int)(100F * f * f);
-        if (mc.gameSettings.particles == 1)
+        if (mc.gameSettings.particleSetting == 1)
         {
             i1 >>= 1;
         }
-        else if (mc.gameSettings.particles == 2)
+        else if (mc.gameSettings.particleSetting == 2)
         {
             i1 = 0;
         }
@@ -1470,7 +1470,7 @@ public class EntityRenderer
         else
         {
             float f5 = farPlaneDistance;
-            if (mc.theWorld.worldProvider.func_46064_i() && !flag)
+            if (mc.theWorld.worldProvider.getWorldHasNoSky() && !flag)
             {
                 double d = (double)((entityliving.getEntityBrightnessForRender(f) & 0xf00000) >> 20) / 16D + (entityliving.lastTickPosY + (entityliving.posY - entityliving.lastTickPosY) * (double)f + 4D) / 32D;
                 if (d < 1.0D)

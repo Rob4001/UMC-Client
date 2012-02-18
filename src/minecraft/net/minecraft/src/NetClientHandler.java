@@ -47,8 +47,8 @@ public class NetClientHandler extends NetHandler
     {
         mc.playerController = new PlayerControllerMP(mc, this);
         mc.statFileWriter.readStat(StatList.joinMultiplayerStat, 1);
-        worldClient = new WorldClient(this, new WorldSettings(packet1login.mapSeed, packet1login.serverMode, false, false, packet1login.field_46032_d), packet1login.worldType, packet1login.difficultySetting);
-        worldClient.multiplayerWorld = true;
+        worldClient = new WorldClient(this, new WorldSettings(packet1login.mapSeed, packet1login.serverMode, false, false, packet1login.terrainType), packet1login.worldType, packet1login.difficultySetting);
+        worldClient.isRemote = true;
         mc.changeWorld1(worldClient);
         mc.thePlayer.dimension = packet1login.worldType;
         mc.displayGuiScreen(new GuiDownloadTerrain(this));
@@ -189,7 +189,7 @@ public class NetClientHandler extends NetHandler
 
     public void handleEntityExpOrb(Packet26EntityExpOrb packet26entityexporb)
     {
-        EntityXPOrb entityxporb = new EntityXPOrb(worldClient, packet26entityexporb.posX, packet26entityexporb.posY, packet26entityexporb.posZ, packet26entityexporb.count);
+        EntityXPOrb entityxporb = new EntityXPOrb(worldClient, packet26entityexporb.posX, packet26entityexporb.posY, packet26entityexporb.posZ, packet26entityexporb.xpValue);
         entityxporb.serverPosX = packet26entityexporb.posX;
         entityxporb.serverPosY = packet26entityexporb.posY;
         entityxporb.serverPosZ = packet26entityexporb.posZ;
@@ -421,7 +421,7 @@ public class NetClientHandler extends NetHandler
         }
     }
 
-    public void func_28117_a(Packet packet)
+    public void quitWithPacket(Packet packet)
     {
         if (disconnected)
         {
@@ -466,24 +466,10 @@ public class NetClientHandler extends NetHandler
 
     public void handleChat(Packet3Chat packet3chat)
     {
-        boolean flag = false;
-        if (ChatHook.checkChat(packet3chat.message))
-        {
-            flag = true;
-        }
-        else
-        {
-            flag = false;
-        }
-        if (!flag)
-        {
-            mc.ingameGUI.addChatMessage(packet3chat.message);
-        }
+        mc.ingameGUI.addChatMessage(packet3chat.message);
     }
-    
-    /*Hello World? [does this fix it :<] */
 
-    public void handleArmAnimation(Packet18Animation packet18animation)
+    public void handleAnimation(Packet18Animation packet18animation)
     {
         Entity entity = getEntityByID(packet18animation.entityId);
         if (entity == null)
@@ -643,8 +629,8 @@ public class NetClientHandler extends NetHandler
 
     public void handleSpawnPosition(Packet6SpawnPosition packet6spawnposition)
     {
-        mc.thePlayer.setPlayerSpawnCoordinate(new ChunkCoordinates(packet6spawnposition.xPosition, packet6spawnposition.yPosition, packet6spawnposition.zPosition));
-        mc.theWorld.getWorldInfo().setSpawn(packet6spawnposition.xPosition, packet6spawnposition.yPosition, packet6spawnposition.zPosition);
+        mc.thePlayer.setSpawnChunk(new ChunkCoordinates(packet6spawnposition.xPosition, packet6spawnposition.yPosition, packet6spawnposition.zPosition));
+        mc.theWorld.getWorldInfo().setSpawnPosition(packet6spawnposition.xPosition, packet6spawnposition.yPosition, packet6spawnposition.zPosition);
     }
 
     public void handleAttachEntity(Packet39AttachEntity packet39attachentity)
@@ -687,7 +673,7 @@ public class NetClientHandler extends NetHandler
         }
     }
 
-    public void handleHealth(Packet8UpdateHealth packet8updatehealth)
+    public void handleUpdateHealth(Packet8UpdateHealth packet8updatehealth)
     {
         mc.thePlayer.setHealth(packet8updatehealth.healthMP);
         mc.thePlayer.getFoodStats().setFoodLevel(packet8updatehealth.food);
@@ -701,11 +687,11 @@ public class NetClientHandler extends NetHandler
 
     public void handleRespawn(Packet9Respawn packet9respawn)
     {
-        if (packet9respawn.respawnDimension != mc.thePlayer.dimension || packet9respawn.mapSeed != mc.thePlayer.worldObj.getWorldSeed())
+        if (packet9respawn.respawnDimension != mc.thePlayer.dimension || packet9respawn.mapSeed != mc.thePlayer.worldObj.getSeed())
         {
             field_1210_g = false;
-            worldClient = new WorldClient(this, new WorldSettings(packet9respawn.mapSeed, packet9respawn.creativeMode, false, false, packet9respawn.field_46031_f), packet9respawn.respawnDimension, packet9respawn.difficulty);
-            worldClient.multiplayerWorld = true;
+            worldClient = new WorldClient(this, new WorldSettings(packet9respawn.mapSeed, packet9respawn.creativeMode, false, false, packet9respawn.terrainType), packet9respawn.respawnDimension, packet9respawn.difficulty);
+            worldClient.isRemote = true;
             mc.changeWorld1(worldClient);
             mc.thePlayer.dimension = packet9respawn.respawnDimension;
             mc.displayGuiScreen(new GuiDownloadTerrain(this));
@@ -782,7 +768,7 @@ public class NetClientHandler extends NetHandler
         }
     }
 
-    public void handleContainerTransaction(Packet106Transaction packet106transaction)
+    public void handleTransaction(Packet106Transaction packet106transaction)
     {
         Container container = null;
         if (packet106transaction.windowId == 0)
@@ -860,7 +846,7 @@ public class NetClientHandler extends NetHandler
         mc.thePlayer.closeScreen();
     }
 
-    public void handleNotePlay(Packet54PlayNoteBlock packet54playnoteblock)
+    public void handlePlayNoteBlock(Packet54PlayNoteBlock packet54playnoteblock)
     {
         mc.theWorld.playNoteAt(packet54playnoteblock.xLocation, packet54playnoteblock.yLocation, packet54playnoteblock.zLocation, packet54playnoteblock.instrumentType, packet54playnoteblock.pitch);
     }
@@ -874,12 +860,12 @@ public class NetClientHandler extends NetHandler
         }
         if (i == 1)
         {
-            worldClient.getWorldInfo().setIsRaining(true);
+            worldClient.getWorldInfo().setRaining(true);
             worldClient.setRainStrength(1.0F);
         }
         else if (i == 2)
         {
-            worldClient.getWorldInfo().setIsRaining(false);
+            worldClient.getWorldInfo().setRaining(false);
             worldClient.setRainStrength(0.0F);
         }
         else if (i == 3)
@@ -892,7 +878,7 @@ public class NetClientHandler extends NetHandler
         }
     }
 
-    public void handleItemData(Packet131MapData packet131mapdata)
+    public void handleMapData(Packet131MapData packet131mapdata)
     {
         if (packet131mapdata.itemID == Item.map.shiftedIndex)
         {

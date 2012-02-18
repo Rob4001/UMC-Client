@@ -4,7 +4,7 @@ import java.io.*;
 
 public class NBTTagFloat extends NBTBase
 {
-    public float floatValue;
+    public float data;
 
     public NBTTagFloat(String s)
     {
@@ -14,34 +14,34 @@ public class NBTTagFloat extends NBTBase
     public NBTTagFloat(String s, float f)
     {
         super(s);
-        floatValue = f;
+        data = f;
     }
 
-    void writeTagContents(DataOutput dataoutput)
+    void write(DataOutput dataoutput)
     throws IOException
     {
-        dataoutput.writeFloat(floatValue);
+        dataoutput.writeFloat(data);
     }
 
-    void readTagContents(DataInput datainput)
+    void load(DataInput datainput)
     throws IOException
     {
-        floatValue = datainput.readFloat();
+        data = datainput.readFloat();
     }
 
-    public byte getType()
+    public byte getId()
     {
         return 5;
     }
 
     public String toString()
     {
-        return (new StringBuilder()).append("").append(floatValue).toString();
+        return (new StringBuilder()).append("").append(data).toString();
     }
 
-    public NBTBase cloneTag()
+    public NBTBase copy()
     {
-        return new NBTTagFloat(getKey(), floatValue);
+        return new NBTTagFloat(getName(), data);
     }
 
     public boolean equals(Object obj)
@@ -49,7 +49,7 @@ public class NBTTagFloat extends NBTBase
         if (super.equals(obj))
         {
             NBTTagFloat nbttagfloat = (NBTTagFloat)obj;
-            return floatValue == nbttagfloat.floatValue;
+            return data == nbttagfloat.data;
         }
         else
         {

@@ -101,7 +101,7 @@ public class PotionEffect
         {
             s = (new StringBuilder()).append(getEffectName()).append(", Duration: ").append(getDuration()).toString();
         }
-        if (Potion.potionTypes[potionID].func_40612_i())
+        if (Potion.potionTypes[potionID].isUsable())
         {
             return (new StringBuilder()).append("(").append(s).append(")").toString();
         }

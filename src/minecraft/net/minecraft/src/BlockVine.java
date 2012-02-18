@@ -128,7 +128,7 @@ public class BlockVine extends Block
             return false;
         }
         Block block = Block.blocksList[i];
-        return block.renderAsNormalBlock() && block.blockMaterial.getIsSolid();
+        return block.renderAsNormalBlock() && block.blockMaterial.blocksMovement();
     }
 
     private boolean canVineStay(World world, int i, int j, int k)
@@ -174,7 +174,7 @@ public class BlockVine extends Block
 
     public void onNeighborBlockChange(World world, int i, int j, int k, int l)
     {
-        if (!world.multiplayerWorld && !canVineStay(world, i, j, k))
+        if (!world.isRemote && !canVineStay(world, i, j, k))
         {
             dropBlockAsItem(world, i, j, k, world.getBlockMetadata(i, j, k), 0);
             world.setBlockWithNotify(i, j, k, 0);
@@ -183,7 +183,7 @@ public class BlockVine extends Block
 
     public void updateTick(World world, int i, int j, int k, Random random)
     {
-        if (!world.multiplayerWorld && world.rand.nextInt(4) == 0)
+        if (!world.isRemote && world.rand.nextInt(4) == 0)
         {
             byte byte0 = 4;
             int l = 5;
@@ -277,7 +277,7 @@ public class BlockVine extends Block
                         world.setBlockAndMetadataWithNotify(i + Direction.field_35871_a[i2], j, k + Direction.field_35870_b[i2], blockID, 0);
                     }
                 }
-                else if (Block.blocksList[k2].blockMaterial.getIsOpaque() && Block.blocksList[k2].renderAsNormalBlock())
+                else if (Block.blocksList[k2].blockMaterial.isOpaque() && Block.blocksList[k2].renderAsNormalBlock())
                 {
                     world.setBlockMetadataWithNotify(i, j, k, i1 | 1 << i2);
                 }
@@ -345,7 +345,7 @@ public class BlockVine extends Block
 
     public void harvestBlock(World world, EntityPlayer entityplayer, int i, int j, int k, int l)
     {
-        if (!world.multiplayerWorld && entityplayer.getCurrentEquippedItem() != null && entityplayer.getCurrentEquippedItem().itemID == Item.shears.shiftedIndex)
+        if (!world.isRemote && entityplayer.getCurrentEquippedItem() != null && entityplayer.getCurrentEquippedItem().itemID == Item.shears.shiftedIndex)
         {
             entityplayer.addStat(StatList.mineBlockStatArray[blockID], 1);
             dropBlockAsItem_do(world, i, j, k, new ItemStack(Block.vine, 1, 0));

@@ -204,7 +204,7 @@ public class ChunkCache
         }
         else
         {
-            return block.blockMaterial.getIsSolid() && block.renderAsNormalBlock();
+            return block.blockMaterial.blocksMovement() && block.renderAsNormalBlock();
         }
     }
 

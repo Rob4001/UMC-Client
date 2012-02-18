@@ -68,7 +68,7 @@ public abstract class Entity
     public int serverPosX;
     public int serverPosY;
     public int serverPosZ;
-    public boolean ignoreFrustumCheck;
+    public boolean ignoreFrustrumCheck;
     public boolean isAirBorne;
 
     public Entity(World world)
@@ -265,7 +265,7 @@ public abstract class Entity
         {
             inWater = false;
         }
-        if (worldObj.multiplayerWorld)
+        if (worldObj.isRemote)
         {
             fire = 0;
         }
@@ -297,7 +297,7 @@ public abstract class Entity
         {
             kill();
         }
-        if (!worldObj.multiplayerWorld)
+        if (!worldObj.isRemote)
         {
             setFlag(0, fire > 0);
             setFlag(2, ridingEntity != null);
@@ -342,7 +342,7 @@ public abstract class Entity
         {
             return false;
         }
-        return !worldObj.getIsAnyLiquid(axisalignedbb);
+        return !worldObj.isAnyLiquid(axisalignedbb);
     }
 
     public void moveEntity(double d, double d1, double d2)
@@ -552,7 +552,7 @@ public abstract class Entity
             if (distanceWalkedModified > (float)nextStepDistance && j3 > 0)
             {
                 nextStepDistance = (int)distanceWalkedModified + 1;
-                func_41002_a(l, j1, l1, j3);
+                playStepSound(l, j1, l1, j3);
                 Block.blocksList[j3].onEntityWalking(worldObj, l, j1, l1, this);
             }
         }
@@ -604,17 +604,17 @@ public abstract class Entity
         Profiler.endSection();
     }
 
-    protected void func_41002_a(int i, int j, int k, int l)
+    protected void playStepSound(int i, int j, int k, int l)
     {
         StepSound stepsound = Block.blocksList[l].stepSound;
         if (worldObj.getBlockId(i, j + 1, k) == Block.snow.blockID)
         {
             stepsound = Block.snow.stepSound;
-            worldObj.playSoundAtEntity(this, stepsound.stepSoundDir2(), stepsound.getVolume() * 0.15F, stepsound.getPitch());
+            worldObj.playSoundAtEntity(this, stepsound.getStepSound(), stepsound.getVolume() * 0.15F, stepsound.getPitch());
         }
-        else if (!Block.blocksList[l].blockMaterial.getIsLiquid())
+        else if (!Block.blocksList[l].blockMaterial.isLiquid())
         {
-            worldObj.playSoundAtEntity(this, stepsound.stepSoundDir2(), stepsound.getVolume() * 0.15F, stepsound.getPitch());
+            worldObj.playSoundAtEntity(this, stepsound.getStepSound(), stepsound.getVolume() * 0.15F, stepsound.getPitch());
         }
     }
 
@@ -641,7 +641,7 @@ public abstract class Entity
                     }
                     if (l > 0)
                     {
-                        Block.blocksList[l].func_43001_a(worldObj, i, j, k, this, fallDistance);
+                        Block.blocksList[l].onFallenUpon(worldObj, i, j, k, this, fallDistance);
                     }
                 }
                 fall(fallDistance);
@@ -993,8 +993,8 @@ public abstract class Entity
         prevPosX = lastTickPosX = posX = ((NBTTagDouble)nbttaglist.tagAt(0)).doubleValue;
         prevPosY = lastTickPosY = posY = ((NBTTagDouble)nbttaglist.tagAt(1)).doubleValue;
         prevPosZ = lastTickPosZ = posZ = ((NBTTagDouble)nbttaglist.tagAt(2)).doubleValue;
-        prevRotationYaw = rotationYaw = ((NBTTagFloat)nbttaglist2.tagAt(0)).floatValue;
-        prevRotationPitch = rotationPitch = ((NBTTagFloat)nbttaglist2.tagAt(1)).floatValue;
+        prevRotationYaw = rotationYaw = ((NBTTagFloat)nbttaglist2.tagAt(0)).data;
+        prevRotationPitch = rotationPitch = ((NBTTagFloat)nbttaglist2.tagAt(1)).data;
         fallDistance = nbttagcompound.getFloat("FallDistance");
         fire = nbttagcompound.getShort("Fire");
         setAir(nbttagcompound.getShort("Air"));
@@ -1021,7 +1021,7 @@ public abstract class Entity
         for (int j = 0; j < i; j++)
         {
             double d = ad1[j];
-            nbttaglist.setTag(new NBTTagDouble(null, d));
+            nbttaglist.appendTag(new NBTTagDouble(null, d));
         }
 
         return nbttaglist;
@@ -1035,7 +1035,7 @@ public abstract class Entity
         for (int j = 0; j < i; j++)
         {
             float f = af1[j];
-            nbttaglist.setTag(new NBTTagFloat(null, f));
+            nbttaglist.appendTag(new NBTTagFloat(null, f));
         }
 
         return nbttaglist;

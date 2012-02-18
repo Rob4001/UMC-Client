@@ -73,7 +73,7 @@ public class SlotCrafting extends Slot
                 continue;
             }
             ItemStack itemstack2 = new ItemStack(itemstack1.getItem().getContainerItem());
-            if (itemstack1.getItem().func_46059_i(itemstack1) && thePlayer.inventory.addItemStackToInventory(itemstack2))
+            if (itemstack1.getItem().doesContainerItemLeaveCraftingGrid(itemstack1) && thePlayer.inventory.addItemStackToInventory(itemstack2))
             {
                 continue;
             }

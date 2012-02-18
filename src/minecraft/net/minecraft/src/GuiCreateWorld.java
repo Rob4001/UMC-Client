@@ -79,7 +79,7 @@ public class GuiCreateWorld extends GuiScreen
         {
             folderName = "World";
         }
-        folderName = generateUnusedFolderName(mc.getSaveLoader(), folderName);
+        folderName = func_25097_a(mc.getSaveLoader(), folderName);
     }
 
     private void func_35363_g()
@@ -102,7 +102,7 @@ public class GuiCreateWorld extends GuiScreen
         return;
     }
 
-    public static String generateUnusedFolderName(ISaveFormat isaveformat, String s)
+    public static String func_25097_a(ISaveFormat isaveformat, String s)
     {
         for (; isaveformat.getWorldInfo(s) != null; s = (new StringBuilder()).append(s).append("-").toString()) { }
         return s;

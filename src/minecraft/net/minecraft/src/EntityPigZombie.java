@@ -20,7 +20,7 @@ public class EntityPigZombie extends EntityZombie
         isImmuneToFire = true;
     }
 
-    protected boolean func_46006_aR()
+    protected boolean isAIEnabled()
     {
         return false;
     }
@@ -37,7 +37,7 @@ public class EntityPigZombie extends EntityZombie
 
     public boolean getCanSpawnHere()
     {
-        return worldObj.difficultySetting > 0 && worldObj.checkIfAABBIsClear(boundingBox) && worldObj.getCollidingBoundingBoxes(this, boundingBox).size() == 0 && !worldObj.getIsAnyLiquid(boundingBox);
+        return worldObj.difficultySetting > 0 && worldObj.checkIfAABBIsClear(boundingBox) && worldObj.getCollidingBoundingBoxes(this, boundingBox).size() == 0 && !worldObj.isAnyLiquid(boundingBox);
     }
 
     public void writeEntityToNBT(NBTTagCompound nbttagcompound)

@@ -7,7 +7,7 @@ final class MaterialWeb extends Material
         super(mapcolor);
     }
 
-    public boolean getIsSolid()
+    public boolean blocksMovement()
     {
         return false;
     }

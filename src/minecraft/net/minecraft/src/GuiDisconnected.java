@@ -35,6 +35,7 @@ public class GuiDisconnected extends GuiScreen
         StringTranslate stringtranslate = StringTranslate.getInstance();
         controlList.clear();
         controlList.add(new GuiButton(0, width / 2 - 100, height / 4 + 120 + 12, stringtranslate.translateKey("gui.toMenu")));
+      //UMC Start
         controlList.add(new GuiButton(1, width/2 - 100 , height/4 + 100 , "Reconnect"));
     }
 
@@ -44,9 +45,10 @@ public class GuiDisconnected extends GuiScreen
         {
             mc.displayGuiScreen(new GuiMainMenu());
         }else if(guibutton.id == 1){
-            mc.displayGuiScreen(new GuiConnecting(this.mc,this.mc.lastIP,this.mc.lastPort));
+        	mc.displayGuiScreen(new GuiConnecting(this.mc,this.mc.lastIP,this.mc.lastPort));
         }
     }
+    //UMC End
 
     public void drawScreen(int i, int j, float f)
     {

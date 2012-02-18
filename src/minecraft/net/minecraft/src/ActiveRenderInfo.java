@@ -61,7 +61,7 @@ public class ActiveRenderInfo
         Vec3D vec3d = projectViewFromEntity(entityliving, f);
         ChunkPosition chunkposition = new ChunkPosition(vec3d);
         int i = world.getBlockId(chunkposition.x, chunkposition.y, chunkposition.z);
-        if (i != 0 && Block.blocksList[i].blockMaterial.getIsLiquid())
+        if (i != 0 && Block.blocksList[i].blockMaterial.isLiquid())
         {
             float f1 = BlockFluid.getFluidHeightPercent(world.getBlockMetadata(chunkposition.x, chunkposition.y, chunkposition.z)) - 0.1111111F;
             float f2 = (float)(chunkposition.y + 1) - f1;

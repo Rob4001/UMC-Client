@@ -112,7 +112,7 @@ public class EntityDropParticleFX extends EntityFX
             motionZ *= 0.69999998807907104D;
         }
         Material material = worldObj.getBlockMaterial(MathHelper.floor_double(posX), MathHelper.floor_double(posY), MathHelper.floor_double(posZ));
-        if (material.getIsLiquid() || material.isSolid())
+        if (material.isLiquid() || material.isSolid())
         {
             double d = (float)(MathHelper.floor_double(posY) + 1) - BlockFluid.getFluidHeightPercent(worldObj.getBlockMetadata(MathHelper.floor_double(posX), MathHelper.floor_double(posY), MathHelper.floor_double(posZ)));
             if (posY < d)

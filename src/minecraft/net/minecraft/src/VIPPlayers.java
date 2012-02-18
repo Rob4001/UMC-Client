@@ -1,5 +1,7 @@
 package net.minecraft.src;
 
+//UMC ModPack class
+
 public class VIPPlayers {
 
 	private static String[] admins = new String[] {"Andypandy89",
@@ -28,17 +30,15 @@ public class VIPPlayers {
 	private static String[] dev = new String[] {"Rob4001",
 			"andersonhc"};
 	private static String[] cdev = new String[] {"gravypod"};
-	private static String[] kewl = new String[] {"smitened"};
-
+	private static String[] donator = new String[] {"psychojenii"};
+	private static String[] arch = new String[] {"NXWxWolves",
+		"Sagethor"};
 
 	public static int getColor(String s) {
 		ChatColor c = ChatColor.WHITE;
 		
 		for (String name : admins){
 			if (name.equalsIgnoreCase(s)) c = ChatColor.DARK_RED;
-		}
-		for (String name : kewl){
-			if (name.equalsIgnoreCase(s)) c = ChatColor.GREEN;
 		}
 		for (String name : gms){
 			if (name.equalsIgnoreCase(s)) c = ChatColor.RED;
@@ -50,7 +50,10 @@ public class VIPPlayers {
 			if (name.equalsIgnoreCase(s)) c = ChatColor.DARK_AQUA;
 		}
 		for (String name : cdev){
-			if (name.equalsIgnoreCase(s)) c = ChatColor.AQUA;
+			if (name.equalsIgnoreCase(s)) c = ChatColor.DARK_AQUA;
+		}
+		for (String name : donator){
+			if (name.equalsIgnoreCase(s)) c = ChatColor.GREEN;
 		}
 		return convert (c);
 	}

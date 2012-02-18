@@ -5,7 +5,7 @@ public class MaterialTransparent extends Material
     public MaterialTransparent(MapColor mapcolor)
     {
         super(mapcolor);
-        setIsGroundCover();
+        setGroundCover();
     }
 
     public boolean isSolid()
@@ -18,7 +18,7 @@ public class MaterialTransparent extends Material
         return false;
     }
 
-    public boolean getIsSolid()
+    public boolean blocksMovement()
     {
         return false;
     }

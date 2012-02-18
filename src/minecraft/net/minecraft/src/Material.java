@@ -20,7 +20,7 @@ public class Material
     public static final Material circuits;
     public static final Material glass;
     public static final Material tnt;
-    public static final Material unused;
+    public static final Material field_4262_q;
     public static final Material ice;
     public static final Material snow;
     public static final Material craftedSnow;
@@ -45,7 +45,7 @@ public class Material
         materialMapColor = mapcolor;
     }
 
-    public boolean getIsLiquid()
+    public boolean isLiquid()
     {
         return false;
     }
@@ -60,12 +60,12 @@ public class Material
         return true;
     }
 
-    public boolean getIsSolid()
+    public boolean blocksMovement()
     {
         return true;
     }
 
-    private Material setIsTranslucent()
+    private Material setTranslucent()
     {
         isTranslucent = true;
         return this;
@@ -88,18 +88,18 @@ public class Material
         return canBurn;
     }
 
-    public Material setIsGroundCover()
+    public Material setGroundCover()
     {
         groundCover = true;
         return this;
     }
 
-    public boolean getIsGroundCover()
+    public boolean isGroundCover()
     {
         return groundCover;
     }
 
-    public boolean getIsOpaque()
+    public boolean isOpaque()
     {
         if (isTranslucent)
         {
@@ -107,11 +107,11 @@ public class Material
         }
         else
         {
-            return getIsSolid();
+            return blocksMovement();
         }
     }
 
-    public boolean getIsHarvestable()
+    public boolean isHarvestable()
     {
         return canHarvest;
     }
@@ -143,21 +143,21 @@ public class Material
         iron = (new Material(MapColor.ironColor)).setNoHarvest();
         water = (new MaterialLiquid(MapColor.waterColor)).setNoPushMobility();
         lava = (new MaterialLiquid(MapColor.tntColor)).setNoPushMobility();
-        leaves = (new Material(MapColor.foliageColor)).setBurning().setIsTranslucent().setNoPushMobility();
+        leaves = (new Material(MapColor.foliageColor)).setBurning().setTranslucent().setNoPushMobility();
         plants = (new MaterialLogic(MapColor.foliageColor)).setNoPushMobility();
-        vine = (new MaterialLogic(MapColor.foliageColor)).setBurning().setNoPushMobility().setIsGroundCover();
+        vine = (new MaterialLogic(MapColor.foliageColor)).setBurning().setNoPushMobility().setGroundCover();
         sponge = new Material(MapColor.clothColor);
         cloth = (new Material(MapColor.clothColor)).setBurning();
         fire = (new MaterialTransparent(MapColor.airColor)).setNoPushMobility();
         sand = new Material(MapColor.sandColor);
         circuits = (new MaterialLogic(MapColor.airColor)).setNoPushMobility();
-        glass = (new Material(MapColor.airColor)).setIsTranslucent();
-        tnt = (new Material(MapColor.tntColor)).setBurning().setIsTranslucent();
-        unused = (new Material(MapColor.foliageColor)).setNoPushMobility();
-        ice = (new Material(MapColor.iceColor)).setIsTranslucent();
-        snow = (new MaterialLogic(MapColor.snowColor)).setIsGroundCover().setIsTranslucent().setNoHarvest().setNoPushMobility();
+        glass = (new Material(MapColor.airColor)).setTranslucent();
+        tnt = (new Material(MapColor.tntColor)).setBurning().setTranslucent();
+        field_4262_q = (new Material(MapColor.foliageColor)).setNoPushMobility();
+        ice = (new Material(MapColor.iceColor)).setTranslucent();
+        snow = (new MaterialLogic(MapColor.snowColor)).setGroundCover().setTranslucent().setNoHarvest().setNoPushMobility();
         craftedSnow = (new Material(MapColor.snowColor)).setNoHarvest();
-        cactus = (new Material(MapColor.foliageColor)).setIsTranslucent().setNoPushMobility();
+        cactus = (new Material(MapColor.foliageColor)).setTranslucent().setNoPushMobility();
         clay = new Material(MapColor.clayColor);
         pumpkin = (new Material(MapColor.foliageColor)).setNoPushMobility();
         dragonEgg = (new Material(MapColor.foliageColor)).setNoPushMobility();

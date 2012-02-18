@@ -123,7 +123,7 @@ public abstract class Render
         if (entity instanceof EntityLiving)
         {
             EntityLiving entityliving = (EntityLiving)entity;
-            f2 *= entityliving.func_35159_aC();
+            f2 *= entityliving.getRenderSizeModifier();
             if (entityliving instanceof EntityAnimal)
             {
                 EntityAnimal entityanimal = (EntityAnimal)entityliving;

@@ -17,19 +17,19 @@ public class NBTTagDouble extends NBTBase
         doubleValue = d;
     }
 
-    void writeTagContents(DataOutput dataoutput)
+    void write(DataOutput dataoutput)
     throws IOException
     {
         dataoutput.writeDouble(doubleValue);
     }
 
-    void readTagContents(DataInput datainput)
+    void load(DataInput datainput)
     throws IOException
     {
         doubleValue = datainput.readDouble();
     }
 
-    public byte getType()
+    public byte getId()
     {
         return 6;
     }
@@ -39,9 +39,9 @@ public class NBTTagDouble extends NBTBase
         return (new StringBuilder()).append("").append(doubleValue).toString();
     }
 
-    public NBTBase cloneTag()
+    public NBTBase copy()
     {
-        return new NBTTagDouble(getKey(), doubleValue);
+        return new NBTTagDouble(getName(), doubleValue);
     }
 
     public boolean equals(Object obj)

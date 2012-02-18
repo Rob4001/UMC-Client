@@ -17,14 +17,14 @@ public class NBTTagByteArray extends NBTBase
         byteArray = abyte0;
     }
 
-    void writeTagContents(DataOutput dataoutput)
+    void write(DataOutput dataoutput)
     throws IOException
     {
         dataoutput.writeInt(byteArray.length);
         dataoutput.write(byteArray);
     }
 
-    void readTagContents(DataInput datainput)
+    void load(DataInput datainput)
     throws IOException
     {
         int i = datainput.readInt();
@@ -32,7 +32,7 @@ public class NBTTagByteArray extends NBTBase
         datainput.readFully(byteArray);
     }
 
-    public byte getType()
+    public byte getId()
     {
         return 7;
     }
@@ -55,10 +55,10 @@ public class NBTTagByteArray extends NBTBase
         }
     }
 
-    public NBTBase cloneTag()
+    public NBTBase copy()
     {
         byte abyte0[] = new byte[byteArray.length];
         System.arraycopy(byteArray, 0, abyte0, 0, byteArray.length);
-        return new NBTTagByteArray(getKey(), abyte0);
+        return new NBTTagByteArray(getName(), abyte0);
     }
 }

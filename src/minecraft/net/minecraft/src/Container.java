@@ -243,7 +243,7 @@ public abstract class Container
     {
     }
 
-    public short func_20111_a(InventoryPlayer inventoryplayer)
+    public short getNextTransactionID(InventoryPlayer inventoryplayer)
     {
         field_20917_a++;
         return field_20917_a;

@@ -164,7 +164,7 @@ public class PathFinder
 
     private final PathPoint openPoint(int i, int j, int k)
     {
-        int l = PathPoint.func_22329_a(i, j, k);
+        int l = PathPoint.makeHash(i, j, k);
         PathPoint pathpoint = (PathPoint)pointMap.lookup(l);
         if (pathpoint == null)
         {
@@ -197,7 +197,7 @@ public class PathFinder
                         continue;
                     }
                     Material material = Block.blocksList[k1].blockMaterial;
-                    if (material.getIsSolid())
+                    if (material.blocksMovement())
                     {
                         return 0;
                     }

@@ -53,7 +53,7 @@ public class BlockStationary extends BlockFluid
                     }
                     continue;
                 }
-                if (Block.blocksList[j1].blockMaterial.getIsSolid())
+                if (Block.blocksList[j1].blockMaterial.blocksMovement())
                 {
                     return;
                 }

@@ -9,10 +9,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import net.minecraft.client.Minecraft;
+
+import org.lwjgl.Sys;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.GLU;
-import org.lwjgl.Sys;
-
 
 public class GuiMainMenu extends GuiScreen
 {
@@ -76,22 +76,23 @@ public class GuiMainMenu extends GuiScreen
         viewportTexture = mc.renderEngine.allocateAndSetupTexture(new java.awt.image.BufferedImage(256, 256, 2));
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(new Date());
-        if (calendar.get(2) + 0 == 11 && calendar.get(5) == 9)
+        if (calendar.get(2) + 1 == 11 && calendar.get(5) == 9)
         {
             splashText = "Happy birthday, ez!";
-        } 
-		else if (calendar.get(2) + 0 == 6 && calendar.get(5) == 1)
+        }
+        else if (calendar.get(2) + 1 == 6 && calendar.get(5) == 1)
         {
             splashText = "Happy birthday, Notch!";
         }
-        else if (calendar.get(2) + 0 == 12 && calendar.get(5) == 24)
+        else if (calendar.get(2) + 1 == 12 && calendar.get(5) == 24)
         {
             splashText = "Merry X-mas!";
         }
-        else if (calendar.get(2) + 0 == 1 && calendar.get(5) == 1)
+        else if (calendar.get(2) + 1 == 1 && calendar.get(5) == 1)
         {
             splashText = "Happy new year!";
         }
+        //UMC ModPack Start
         if (calendar.get(2) + 0 == 2 && calendar.get(5) == 12)
         {
             splashText = "Happy birthday Gravypod!";
@@ -151,9 +152,13 @@ public class GuiMainMenu extends GuiScreen
         {
             mc.displayGuiScreen(new GuiSelectWorld(this));
         }
+        if (guibutton.id == 10)
+        {
+            mc.displayGuiScreen(new GuiMultiplayer(this));
+        }
         if (guibutton.id == 2)
         {
-        	mc.displayGuiScreen(new GuiConnecting(mc, "www.ultimateminecraft.net", 25565));
+        	mc.displayGuiScreen(new GuiConnecting(mc, "ultimateminecraft.net", 25565));
         }
         if (guibutton.id == 3)
         {
@@ -166,12 +171,9 @@ public class GuiMainMenu extends GuiScreen
 		        if (guibutton.id == 8)
         {
             Sys.openURL("www.ultimateminecraft.net");
-        }
-        if (guibutton.id == 10)
-        {
-        	mc.displayGuiScreen(new GuiMultiplayer(this));
-        }      
+        }   
     }
+  //UMC ModPack End
 
     private void func_35355_b(int i, int j, float f)
     {
@@ -224,7 +226,6 @@ public class GuiMainMenu extends GuiScreen
                     GL11.glRotatef(-90F, 1.0F, 0.0F, 0.0F);
                 }
                 GL11.glBindTexture(3553 /*GL_TEXTURE_2D*/, mc.renderEngine.getTexture((new StringBuilder()).append("/title/bg/panorama").append(i1).append(".png").toString()));
-                //FIX: Add the path to UMC for Logo!
                 tessellator.startDrawingQuads();
                 tessellator.setColorRGBA_I(0xffffff, 255 / (l + 1));
                 float f4 = 0.0F;
@@ -316,23 +317,23 @@ public class GuiMainMenu extends GuiScreen
         Tessellator tessellator = Tessellator.instance;
         char c = '\u0112';
         int k = width / 2 - c / 2;
-        byte titleHight = 50;
+        byte byte0 = 30;
         drawGradientRect(0, 0, width, height, 0x80ffffff, 0xffffff);
         drawGradientRect(0, 0, width, height, 0, 0x80000000);
         GL11.glBindTexture(3553 /*GL_TEXTURE_2D*/, mc.renderEngine.getTexture("/title/mclogo.png"));
-        //FIX: Add the path to UMC for Logo!
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         if ((double)updateCounter < 0.0001D)
         {
-            drawTexturedModalRect(k + 0, titleHight + 0, 0, 0, 99, 44);
-            drawTexturedModalRect(k + 99, titleHight + 0, 129, 0, 27, 44);
-            drawTexturedModalRect(k + 99 + 26, titleHight + 0, 126, 0, 3, 44);
-            drawTexturedModalRect(k + 99 + 26 + 3, titleHight + 0, 99, 0, 26, 44);
-            drawTexturedModalRect(k + 155, titleHight + 0, 0, 45, 155, 44);
-        } else
+            drawTexturedModalRect(k + 0, byte0 + 0, 0, 0, 99, 44);
+            drawTexturedModalRect(k + 99, byte0 + 0, 129, 0, 27, 44);
+            drawTexturedModalRect(k + 99 + 26, byte0 + 0, 126, 0, 3, 44);
+            drawTexturedModalRect(k + 99 + 26 + 3, byte0 + 0, 99, 0, 26, 44);
+            drawTexturedModalRect(k + 155, byte0 + 0, 0, 45, 155, 44);
+        }
+        else
         {
-            drawTexturedModalRect(k + 0, titleHight + 0, 0, 0, 155, 44);
-            drawTexturedModalRect(k + 155, titleHight + 0, 0, 45, 155, 44);
+            drawTexturedModalRect(k + 0, byte0 + 0, 0, 0, 155, 44);
+            drawTexturedModalRect(k + 155, byte0 + 0, 0, 45, 155, 44);
         }
         tessellator.setColorOpaque_I(0xffffff);
         GL11.glPushMatrix();
@@ -343,8 +344,8 @@ public class GuiMainMenu extends GuiScreen
         GL11.glScalef(f1, f1, f1);
         drawCenteredString(fontRenderer, splashText, 0, -8, 0xffff00);
         GL11.glPopMatrix();
-        drawString(fontRenderer, "UMC client V1", 2, height - 10, 0xffffff);
-        String s = "Copyright Mojang AB and UMC Devs and Gravy!";
+        drawString(fontRenderer, "Minecraft 1.1", 2, height - 10, 0xffffff);
+        String s = "Copyright Mojang AB. Do not distribute!";
         drawString(fontRenderer, s, width - fontRenderer.getStringWidth(s) - 2, height - 10, 0xffffff);
         super.drawScreen(i, j, f);
     }

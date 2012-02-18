@@ -35,7 +35,7 @@ public abstract class GuiContainer extends GuiScreen
         int k = guiLeft;
         int l = guiTop;
         drawGuiContainerBackgroundLayer(f, i, j);
-        RenderHelper.func_41089_c();
+        RenderHelper.enableGUIStandardItemLighting();
         GL11.glPushMatrix();
         GL11.glTranslatef(k, l, 0.0F);
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
@@ -49,7 +49,7 @@ public abstract class GuiContainer extends GuiScreen
         {
             Slot slot1 = (Slot)inventorySlots.inventorySlots.get(j1);
             drawSlotInventory(slot1);
-            if (getIsMouseOverSlot(slot1, i, j))
+            if (isMouseOverSlot(slot1, i, j))
             {
                 slot = slot1;
                 GL11.glDisable(2896 /*GL_LIGHTING*/);
@@ -121,7 +121,7 @@ public abstract class GuiContainer extends GuiScreen
                     String s = (String)list.get(l4);
                     if (l4 == 0)
                     {
-                        s = (new StringBuilder()).append("\247").append(Integer.toHexString(itemstack.func_40707_s().field_40535_e)).append(s).toString();
+                        s = (new StringBuilder()).append("\247").append(Integer.toHexString(itemstack.getRarity().field_40535_e)).append(s).toString();
                     }
                     else
                     {
@@ -211,7 +211,7 @@ public abstract class GuiContainer extends GuiScreen
         for (int k = 0; k < inventorySlots.inventorySlots.size(); k++)
         {
             Slot slot = (Slot)inventorySlots.inventorySlots.get(k);
-            if (getIsMouseOverSlot(slot, i, j))
+            if (isMouseOverSlot(slot, i, j))
             {
                 return slot;
             }
@@ -246,7 +246,7 @@ public abstract class GuiContainer extends GuiScreen
         }
     }
 
-    private boolean getIsMouseOverSlot(Slot slot, int i, int j)
+    private boolean isMouseOverSlot(Slot slot, int i, int j)
     {
         int k = guiLeft;
         int l = guiTop;

@@ -268,7 +268,7 @@ public class GuiAchievements extends GuiScreen
 
         Achievement achievement = null;
         RenderItem renderitem = new RenderItem();
-        RenderHelper.func_41089_c();
+        RenderHelper.enableGUIStandardItemLighting();
         GL11.glDisable(2896 /*GL_LIGHTING*/);
         GL11.glEnable(32826 /*GL_RESCALE_NORMAL_EXT*/);
         GL11.glEnable(2903 /*GL_COLOR_MATERIAL*/);

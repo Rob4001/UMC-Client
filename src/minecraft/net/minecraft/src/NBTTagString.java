@@ -4,7 +4,7 @@ import java.io.*;
 
 public class NBTTagString extends NBTBase
 {
-    public String stringValue;
+    public String data;
 
     public NBTTagString(String s)
     {
@@ -14,7 +14,7 @@ public class NBTTagString extends NBTBase
     public NBTTagString(String s, String s1)
     {
         super(s);
-        stringValue = s1;
+        data = s1;
         if (s1 == null)
         {
             throw new IllegalArgumentException("Empty string not allowed");
@@ -25,31 +25,31 @@ public class NBTTagString extends NBTBase
         }
     }
 
-    void writeTagContents(DataOutput dataoutput)
+    void write(DataOutput dataoutput)
     throws IOException
     {
-        dataoutput.writeUTF(stringValue);
+        dataoutput.writeUTF(data);
     }
 
-    void readTagContents(DataInput datainput)
+    void load(DataInput datainput)
     throws IOException
     {
-        stringValue = datainput.readUTF();
+        data = datainput.readUTF();
     }
 
-    public byte getType()
+    public byte getId()
     {
         return 8;
     }
 
     public String toString()
     {
-        return (new StringBuilder()).append("").append(stringValue).toString();
+        return (new StringBuilder()).append("").append(data).toString();
     }
 
-    public NBTBase cloneTag()
+    public NBTBase copy()
     {
-        return new NBTTagString(getKey(), stringValue);
+        return new NBTTagString(getName(), data);
     }
 
     public boolean equals(Object obj)
@@ -57,7 +57,7 @@ public class NBTTagString extends NBTBase
         if (super.equals(obj))
         {
             NBTTagString nbttagstring = (NBTTagString)obj;
-            return stringValue == null && nbttagstring.stringValue == null || stringValue != null && stringValue.equals(nbttagstring.stringValue);
+            return data == null && nbttagstring.data == null || data != null && data.equals(nbttagstring.data);
         }
         else
         {

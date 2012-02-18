@@ -65,7 +65,7 @@ public final class ItemStack
         ItemStack itemstack = new ItemStack(itemID, i, itemDamage);
         if (stackTagCompound != null)
         {
-            itemstack.stackTagCompound = (NBTTagCompound)stackTagCompound.cloneTag();
+            itemstack.stackTagCompound = (NBTTagCompound)stackTagCompound.copy();
         }
         stackSize -= i;
         return itemstack;
@@ -191,7 +191,7 @@ public final class ItemStack
         itemDamage += i;
         if (itemDamage > getMaxDamage())
         {
-            entityliving.func_41005_b(this);
+            entityliving.renderBrokenItemStack(this);
             if (entityliving instanceof EntityPlayer)
             {
                 ((EntityPlayer)entityliving).addStat(StatList.objectBreakStats[itemID], 1);
@@ -247,7 +247,7 @@ public final class ItemStack
         ItemStack itemstack = new ItemStack(itemID, stackSize, itemDamage);
         if (stackTagCompound != null)
         {
-            itemstack.stackTagCompound = (NBTTagCompound)stackTagCompound.cloneTag();
+            itemstack.stackTagCompound = (NBTTagCompound)stackTagCompound.copy();
             if (!itemstack.stackTagCompound.equals(stackTagCompound))
             {
                 return itemstack;
@@ -412,12 +412,12 @@ public final class ItemStack
         return arraylist;
     }
 
-    public boolean func_40713_r()
+    public boolean hasEffect()
     {
         return getItem().hasEffect(this);
     }
 
-    public EnumRarity func_40707_s()
+    public EnumRarity getRarity()
     {
         return getItem().getRarity(this);
     }
@@ -445,7 +445,7 @@ public final class ItemStack
         NBTTagCompound nbttagcompound = new NBTTagCompound();
         nbttagcompound.setShort("id", (short)enchantment.effectId);
         nbttagcompound.setShort("lvl", (byte)i);
-        nbttaglist.setTag(nbttagcompound);
+        nbttaglist.appendTag(nbttagcompound);
     }
 
     public boolean isItemEnchanted()

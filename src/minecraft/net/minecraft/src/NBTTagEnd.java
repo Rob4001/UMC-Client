@@ -9,17 +9,17 @@ public class NBTTagEnd extends NBTBase
         super(null);
     }
 
-    void readTagContents(DataInput datainput)
+    void load(DataInput datainput)
     throws IOException
     {
     }
 
-    void writeTagContents(DataOutput dataoutput)
+    void write(DataOutput dataoutput)
     throws IOException
     {
     }
 
-    public byte getType()
+    public byte getId()
     {
         return 0;
     }
@@ -29,7 +29,7 @@ public class NBTTagEnd extends NBTBase
         return "END";
     }
 
-    public NBTBase cloneTag()
+    public NBTBase copy()
     {
         return new NBTTagEnd();
     }

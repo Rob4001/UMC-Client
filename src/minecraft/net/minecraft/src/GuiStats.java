@@ -94,7 +94,7 @@ public class GuiStats extends GuiScreen
     {
         drawButtonBackground(i + 1, j + 1);
         GL11.glEnable(32826 /*GL_RESCALE_NORMAL_EXT*/);
-        RenderHelper.func_41089_c();
+        RenderHelper.enableGUIStandardItemLighting();
         renderItem.drawItemIntoGui(fontRenderer, mc.renderEngine, k, 0, Item.itemsList[k].getIconFromDamage(0), i + 2, j + 2);
         RenderHelper.disableStandardItemLighting();
         GL11.glDisable(32826 /*GL_RESCALE_NORMAL_EXT*/);

@@ -15,7 +15,7 @@ public interface ISaveHandler
 
     public abstract void saveWorldInfo(WorldInfo worldinfo);
 
-    public abstract File getMapFile(String s);
+    public abstract File getMapFileFromName(String s);
 
     public abstract String getSaveDirectoryName();
 }

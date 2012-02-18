@@ -107,7 +107,7 @@ public abstract class BlockFluid extends Block
         return flag && i == 0;
     }
 
-    public boolean getIsBlockSolid(IBlockAccess iblockaccess, int i, int j, int k, int l)
+    public boolean isBlockSolid(IBlockAccess iblockaccess, int i, int j, int k, int l)
     {
         Material material = iblockaccess.getBlockMaterial(i, j, k);
         if (material == blockMaterial)
@@ -124,7 +124,7 @@ public abstract class BlockFluid extends Block
         }
         else
         {
-            return super.getIsBlockSolid(iblockaccess, i, j, k, l);
+            return super.isBlockSolid(iblockaccess, i, j, k, l);
         }
     }
 
@@ -197,7 +197,7 @@ public abstract class BlockFluid extends Block
             int i2 = getEffectiveFlowDecay(iblockaccess, j1, k1, l1);
             if (i2 < 0)
             {
-                if (iblockaccess.getBlockMaterial(j1, k1, l1).getIsSolid())
+                if (iblockaccess.getBlockMaterial(j1, k1, l1).blocksMovement())
                 {
                     continue;
                 }
@@ -219,35 +219,35 @@ public abstract class BlockFluid extends Block
         if (iblockaccess.getBlockMetadata(i, j, k) >= 8)
         {
             boolean flag = false;
-            if (flag || getIsBlockSolid(iblockaccess, i, j, k - 1, 2))
+            if (flag || isBlockSolid(iblockaccess, i, j, k - 1, 2))
             {
                 flag = true;
             }
-            if (flag || getIsBlockSolid(iblockaccess, i, j, k + 1, 3))
+            if (flag || isBlockSolid(iblockaccess, i, j, k + 1, 3))
             {
                 flag = true;
             }
-            if (flag || getIsBlockSolid(iblockaccess, i - 1, j, k, 4))
+            if (flag || isBlockSolid(iblockaccess, i - 1, j, k, 4))
             {
                 flag = true;
             }
-            if (flag || getIsBlockSolid(iblockaccess, i + 1, j, k, 5))
+            if (flag || isBlockSolid(iblockaccess, i + 1, j, k, 5))
             {
                 flag = true;
             }
-            if (flag || getIsBlockSolid(iblockaccess, i, j + 1, k - 1, 2))
+            if (flag || isBlockSolid(iblockaccess, i, j + 1, k - 1, 2))
             {
                 flag = true;
             }
-            if (flag || getIsBlockSolid(iblockaccess, i, j + 1, k + 1, 3))
+            if (flag || isBlockSolid(iblockaccess, i, j + 1, k + 1, 3))
             {
                 flag = true;
             }
-            if (flag || getIsBlockSolid(iblockaccess, i - 1, j + 1, k, 4))
+            if (flag || isBlockSolid(iblockaccess, i - 1, j + 1, k, 4))
             {
                 flag = true;
             }
-            if (flag || getIsBlockSolid(iblockaccess, i + 1, j + 1, k, 5))
+            if (flag || isBlockSolid(iblockaccess, i + 1, j + 1, k, 5))
             {
                 flag = true;
             }
@@ -338,7 +338,7 @@ public abstract class BlockFluid extends Block
                 {
                     i2++;
                 }
-                if (world.getBlockMaterial(l1, j, i2) != Material.air || !world.getBlockMaterial(l1, j - 1, i2).getIsSolid() && !world.getBlockMaterial(l1, j - 1, i2).getIsLiquid())
+                if (world.getBlockMaterial(l1, j, i2) != Material.air || !world.getBlockMaterial(l1, j - 1, i2).blocksMovement() && !world.getBlockMaterial(l1, j - 1, i2).isLiquid())
                 {
                     continue;
                 }
@@ -398,7 +398,7 @@ public abstract class BlockFluid extends Block
             double d4 = (float)k + random.nextFloat();
             world.spawnParticle("lava", d, d2, d4, 0.0D, 0.0D, 0.0D);
         }
-        if (random.nextInt(10) == 0 && world.isBlockNormalCube(i, j - 1, k) && !world.getBlockMaterial(i, j - 2, k).getIsSolid())
+        if (random.nextInt(10) == 0 && world.isBlockNormalCube(i, j - 1, k) && !world.getBlockMaterial(i, j - 2, k).blocksMovement())
         {
             double d1 = (float)i + random.nextFloat();
             double d3 = (double)j - 1.05D;

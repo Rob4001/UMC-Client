@@ -133,7 +133,7 @@ public class ItemMap extends ItemMapBase
                                     }
                                 }
                                 while (j6 > 0 && !flag1);
-                                if (j6 > 0 && l6 != 0 && Block.blocksList[l6].blockMaterial.getIsLiquid())
+                                if (j6 > 0 && l6 != 0 && Block.blocksList[l6].blockMaterial.isLiquid())
                                 {
                                     int i7 = j6 - 1;
                                     int k7 = 0;
@@ -142,7 +142,7 @@ public class ItemMap extends ItemMapBase
                                         k7 = chunk.getBlockID(j5 + j4, i7--, l5 + k4);
                                         l4++;
                                     }
-                                    while (i7 > 0 && k7 != 0 && Block.blocksList[k7].blockMaterial.getIsLiquid());
+                                    while (i7 > 0 && k7 != 0 && Block.blocksList[k7].blockMaterial.isLiquid());
                                 }
                             }
                             d1 += (double)j6 / (double)(i * i);
@@ -225,7 +225,7 @@ public class ItemMap extends ItemMapBase
 
     public void onUpdate(ItemStack itemstack, World world, Entity entity, int i, boolean flag)
     {
-        if (world.multiplayerWorld)
+        if (world.isRemote)
         {
             return;
         }

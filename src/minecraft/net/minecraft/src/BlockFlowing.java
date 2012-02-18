@@ -286,7 +286,7 @@ public class BlockFlowing extends BlockFluid
         {
             return true;
         }
-        return material.getIsSolid();
+        return material.blocksMovement();
     }
 
     protected int getSmallestFlowDecay(World world, int i, int j, int k, int l)

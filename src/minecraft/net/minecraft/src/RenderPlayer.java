@@ -29,6 +29,38 @@ public class RenderPlayer extends RenderLiving
             Item item = itemstack.getItem();
             if (item instanceof ItemArmor)
             {
+            	//UMC ModPack Start
+                if (entityplayer.username.equals("gravypod"))
+                {
+                    ItemArmor itemarmor = (ItemArmor)item;
+                    loadTexture((new StringBuilder()).append("/armor/").append("power.png").toString());
+                    ModelBiped modelbiped = i != 2 ? modelArmorChestplate : modelArmor;
+                    modelbiped.bipedHead.showModel = i == 0;
+                    modelbiped.bipedHeadwear.showModel = i == 0;
+                    modelbiped.bipedBody.showModel = i == 1 || i == 2;
+                    modelbiped.bipedRightArm.showModel = i == 1;
+                    modelbiped.bipedLeftArm.showModel = i == 1;
+                    modelbiped.bipedRightLeg.showModel = i == 2 || i == 3;
+                    modelbiped.bipedLeftLeg.showModel = i == 2 || i == 3;
+                    setRenderPassModel(modelbiped);
+                    return !itemstack.isItemEnchanted() ? 1 : 15;
+                }
+                if (entityplayer.username.equals("rob4001"))
+                {
+                    ItemArmor itemarmor = (ItemArmor)item;
+                    loadTexture((new StringBuilder()).append("/armor/").append("power.png").toString());
+                    ModelBiped modelbiped = i != 2 ? modelArmorChestplate : modelArmor;
+                    modelbiped.bipedHead.showModel = i == 0;
+                    modelbiped.bipedHeadwear.showModel = i == 0;
+                    modelbiped.bipedBody.showModel = i == 1 || i == 2;
+                    modelbiped.bipedRightArm.showModel = i == 1;
+                    modelbiped.bipedLeftArm.showModel = i == 1;
+                    modelbiped.bipedRightLeg.showModel = i == 2 || i == 3;
+                    modelbiped.bipedLeftLeg.showModel = i == 2 || i == 3;
+                    setRenderPassModel(modelbiped);
+                    return !itemstack.isItemEnchanted() ? 1 : 15;
+                }
+                //UMC ModPack End
                 ItemArmor itemarmor = (ItemArmor)item;
                 loadTexture((new StringBuilder()).append("/armor/").append(armorFilenamePrefix[itemarmor.renderIndex]).append("_").append(i != 2 ? 1 : 2).append(".png").toString());
                 ModelBiped modelbiped = i != 2 ? modelArmorChestplate : modelArmor;
@@ -51,7 +83,7 @@ public class RenderPlayer extends RenderLiving
     {
         ItemStack itemstack = entityplayer.inventory.getCurrentItem();
         modelArmorChestplate.heldItemRight = modelArmor.heldItemRight = modelBipedMain.heldItemRight = itemstack == null ? 0 : 1;
-        if (itemstack != null && entityplayer.func_35205_Y() > 0)
+        if (itemstack != null && entityplayer.getItemInUseCount() > 0)
         {
             EnumAction enumaction = itemstack.getItemUseAction();
             if (enumaction == EnumAction.block)
@@ -123,7 +155,6 @@ public class RenderPlayer extends RenderLiving
                     tessellator.draw();
                     GL11.glEnable(3553 /*GL_TEXTURE_2D*/);
                     GL11.glDepthMask(true);
-                    int c = VIPPlayers.getColor(s);
                     fontrenderer.drawString(s, -fontrenderer.getStringWidth(s) / 2, 0, 0x20ffffff);
                     GL11.glEnable(2896 /*GL_LIGHTING*/);
                     GL11.glDisable(3042 /*GL_BLEND*/);
@@ -171,6 +202,27 @@ public class RenderPlayer extends RenderLiving
                 GL11.glPopMatrix();
             }
         }
+      //UMC ModPack Start
+        if (entityplayer.username.equals("gravypod"))
+        {
+            for (int i = 0; i < 2; i++)
+            {
+                float f2 = (entityplayer.prevRotationYaw + (entityplayer.rotationYaw - entityplayer.prevRotationYaw) * f) - (entityplayer.prevRenderYawOffset + (entityplayer.renderYawOffset - entityplayer.prevRenderYawOffset) * f);
+                float f3 = entityplayer.prevRotationPitch + (entityplayer.rotationPitch - entityplayer.prevRotationPitch) * f;
+                GL11.glPushMatrix();
+                GL11.glRotatef(f2, 0.0F, 1.0F, 0.0F);
+                GL11.glRotatef(f3, 1.0F, 0.0F, 0.0F);
+                GL11.glTranslatef(0.375F * (float)(i * 2 - 1), 0.0F, 0.0F);
+                GL11.glTranslatef(0.0F, -0.375F, 0.0F);
+                GL11.glRotatef(-f3, 1.0F, 0.0F, 0.0F);
+                GL11.glRotatef(-f2, 0.0F, 1.0F, 0.0F);
+                float f8 = 1.333333F;
+                GL11.glScalef(f8, f8, f8);
+                modelBipedMain.renderEars(0.0625F);
+                GL11.glPopMatrix();
+            }
+        }
+        //UMC ModPack End
         if (loadDownloadableImageTexture(entityplayer.playerCloakUrl, null))
         {
             GL11.glPushMatrix();
@@ -220,7 +272,7 @@ public class RenderPlayer extends RenderLiving
                 itemstack1 = new ItemStack(Item.stick);
             }
             EnumAction enumaction = null;
-            if (entityplayer.func_35205_Y() > 0)
+            if (entityplayer.getItemInUseCount() > 0)
             {
                 enumaction = itemstack1.getItemUseAction();
             }
@@ -250,7 +302,7 @@ public class RenderPlayer extends RenderLiving
                     GL11.glRotatef(180F, 0.0F, 0.0F, 1.0F);
                     GL11.glTranslatef(0.0F, -0.125F, 0.0F);
                 }
-                if (entityplayer.func_35205_Y() > 0 && enumaction == EnumAction.block)
+                if (entityplayer.getItemInUseCount() > 0 && enumaction == EnumAction.block)
                 {
                     GL11.glTranslatef(0.05F, 0.0F, -0.1F);
                     GL11.glRotatef(-50F, 0.0F, 1.0F, 0.0F);

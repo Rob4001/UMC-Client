@@ -17,9 +17,9 @@ public class Potion
     public static final Potion resistance = (new Potion(11, false, 0x99453a)).setPotionName("potion.resistance").setIconIndex(6, 1);
     public static final Potion fireResistance = (new Potion(12, false, 0xe49a3a)).setPotionName("potion.fireResistance").setIconIndex(7, 1);
     public static final Potion waterBreathing = (new Potion(13, false, 0x2e5299)).setPotionName("potion.waterBreathing").setIconIndex(0, 2);
-    public static final Potion invisibility = (new Potion(14, false, 0x7f8392)).setPotionName("potion.invisibility").setIconIndex(0, 1).func_40616_h();
+    public static final Potion invisibility = (new Potion(14, false, 0x7f8392)).setPotionName("potion.invisibility").setIconIndex(0, 1).setPotionUnusable();
     public static final Potion blindness = (new Potion(15, true, 0x1f1f23)).setPotionName("potion.blindness").setIconIndex(5, 1).func_40614_a(0.25D);
-    public static final Potion nightVision = (new Potion(16, false, 0x1f1fa1)).setPotionName("potion.nightVision").setIconIndex(4, 1).func_40616_h();
+    public static final Potion nightVision = (new Potion(16, false, 0x1f1fa1)).setPotionName("potion.nightVision").setIconIndex(4, 1).setPotionUnusable();
     public static final Potion hunger = (new Potion(17, true, 0x587653)).setPotionName("potion.hunger").setIconIndex(1, 1);
     public static final Potion weakness = (new Potion(18, true, 0x484d48)).setPotionName("potion.weakness").setIconIndex(5, 0);
     public static final Potion poison = (new Potion(19, true, 0x4e9331)).setPotionName("potion.poison").setIconIndex(6, 0).func_40614_a(0.25D);
@@ -40,7 +40,7 @@ public class Potion
     private int statusIconIndex;
     private final boolean isBadEffect;
     private double field_40624_L;
-    private boolean field_40625_M;
+    private boolean usable;
     private final int liquidColor;
 
     protected Potion(int i, boolean flag, int j)
@@ -166,7 +166,7 @@ public class Potion
         return statusIconIndex;
     }
 
-    public boolean getIsBadEffect()
+    public boolean isBadEffect()
     {
         return isBadEffect;
     }
@@ -198,15 +198,15 @@ public class Potion
         return field_40624_L;
     }
 
-    public Potion func_40616_h()
+    public Potion setPotionUnusable()
     {
-        field_40625_M = true;
+        usable = true;
         return this;
     }
 
-    public boolean func_40612_i()
+    public boolean isUsable()
     {
-        return field_40625_M;
+        return usable;
     }
 
     public int getLiquidColor()

@@ -123,7 +123,7 @@ public class Chunk
                     l1 -= Block.lightOpacity[blocks[k1 + i2] & 0xff];
                     if (l1 > 0)
                     {
-                        skylightMap.setNibble(j, i2, l, l1);
+                        skylightMap.set(j, i2, l, l1);
                     }
                 }
                 while (--i2 > 0 && l1 > 0);
@@ -264,14 +264,14 @@ public class Chunk
             {
                 for (int l2 = i1; l2 < l; l2++)
                 {
-                    skylightMap.setNibble(i, l2, k, 15);
+                    skylightMap.set(i, l2, k, 15);
                 }
             }
             else
             {
                 for (int i3 = l; i3 < i1; i3++)
                 {
-                    skylightMap.setNibble(i, i3, k, 0);
+                    skylightMap.set(i, i3, k, 0);
                 }
             }
             for (int j3 = 15; i1 > 0 && j3 > 0;)
@@ -287,7 +287,7 @@ public class Chunk
                 {
                     j3 = 0;
                 }
-                skylightMap.setNibble(i, i1, k, j3);
+                skylightMap.set(i, i1, k, j3);
             }
         }
         byte byte0 = heightMap[k << 4 | i];
@@ -325,7 +325,7 @@ public class Chunk
         }
         int k1 = heightMap[k << 4 | i] & 0xff;
         int l1 = blocks[i << worldObj.xShift | k << worldObj.heightShift | j] & 0xff;
-        if (l1 == l && data.getNibble(i, j, k) == i1)
+        if (l1 == l && data.get(i, j, k) == i1)
         {
             return false;
         }
@@ -334,7 +334,7 @@ public class Chunk
         blocks[i << worldObj.xShift | k << worldObj.heightShift | j] = (byte)(byte0 & 0xff);
         if (l1 != 0)
         {
-            if (!worldObj.multiplayerWorld)
+            if (!worldObj.isRemote)
             {
                 Block.blocksList[l1].onBlockRemoval(worldObj, i2, j, j2);
             }
@@ -343,7 +343,7 @@ public class Chunk
                 worldObj.removeBlockTileEntity(i2, j, j2);
             }
         }
-        data.setNibble(i, j, k, i1);
+        data.set(i, j, k, i1);
         if (!worldObj.worldProvider.hasNoSky)
         {
             if (Block.lightOpacity[byte0 & 0xff] != 0)
@@ -361,10 +361,10 @@ public class Chunk
         }
         worldObj.scheduleLightingUpdate(EnumSkyBlock.Block, i2, j, j2, i2, j, j2);
         propagateSkylightOcclusion(i, k);
-        data.setNibble(i, j, k, i1);
+        data.set(i, j, k, i1);
         if (l != 0)
         {
-            if (!worldObj.multiplayerWorld)
+            if (!worldObj.isRemote)
             {
                 Block.blocksList[l].onBlockAdded(worldObj, i2, j, j2);
             }
@@ -415,7 +415,7 @@ public class Chunk
         {
             Block.blocksList[k1].onBlockRemoval(worldObj, l1, j, i2);
         }
-        data.setNibble(i, j, k, 0);
+        data.set(i, j, k, 0);
         if (Block.lightOpacity[byte0 & 0xff] != 0)
         {
             if (j >= j1)
@@ -432,7 +432,7 @@ public class Chunk
         propagateSkylightOcclusion(i, k);
         if (l != 0)
         {
-            if (!worldObj.multiplayerWorld)
+            if (!worldObj.isRemote)
             {
                 Block.blocksList[l].onBlockAdded(worldObj, l1, j, i2);
             }
@@ -464,18 +464,18 @@ public class Chunk
 
     public int getBlockMetadata(int i, int j, int k)
     {
-        return data.getNibble(i, j, k);
+        return data.get(i, j, k);
     }
 
     public boolean setBlockMetadata(int i, int j, int k, int l)
     {
         isModified = true;
-        int i1 = data.getNibble(i, j, k);
+        int i1 = data.get(i, j, k);
         if (i1 == l)
         {
             return false;
         }
-        data.setNibble(i, j, k, l);
+        data.set(i, j, k, l);
         int j1 = getBlockID(i, j, k);
         if (j1 > 0 && (Block.blocksList[j1] instanceof BlockContainer))
         {
@@ -493,11 +493,11 @@ public class Chunk
     {
         if (enumskyblock == EnumSkyBlock.Sky)
         {
-            return skylightMap.getNibble(i, j, k);
+            return skylightMap.get(i, j, k);
         }
         if (enumskyblock == EnumSkyBlock.Block)
         {
-            return blocklightMap.getNibble(i, j, k);
+            return blocklightMap.get(i, j, k);
         }
         else
         {
@@ -512,12 +512,12 @@ public class Chunk
         {
             if (!worldObj.worldProvider.hasNoSky)
             {
-                skylightMap.setNibble(i, j, k, l);
+                skylightMap.set(i, j, k, l);
             }
         }
         else if (enumskyblock == EnumSkyBlock.Block)
         {
-            blocklightMap.setNibble(i, j, k, l);
+            blocklightMap.set(i, j, k, l);
         }
         else
         {
@@ -527,13 +527,13 @@ public class Chunk
 
     public int getBlockLightValue(int i, int j, int k, int l)
     {
-        int i1 = worldObj.worldProvider.hasNoSky ? 0 : skylightMap.getNibble(i, j, k);
+        int i1 = worldObj.worldProvider.hasNoSky ? 0 : skylightMap.get(i, j, k);
         if (i1 > 0)
         {
             isLit = true;
         }
         i1 -= l;
-        int j1 = blocklightMap.getNibble(i, j, k);
+        int j1 = blocklightMap.get(i, j, k);
         if (j1 > i1)
         {
             i1 = j1;
@@ -677,7 +677,7 @@ public class Chunk
     {
         isChunkLoaded = false;
         TileEntity tileentity;
-        for (Iterator iterator = chunkTileEntityMap.values().iterator(); iterator.hasNext(); worldObj.markEntityForDespawn(tileentity))
+        for (Iterator iterator = chunkTileEntityMap.values().iterator(); iterator.hasNext(); worldObj.markTileEntityForDespawn(tileentity))
         {
             tileentity = (TileEntity)iterator.next();
         }
@@ -846,7 +846,7 @@ public class Chunk
 
     public Random getRandomWithSeed(long l)
     {
-        return new Random(worldObj.getWorldSeed() + (long)(xPosition * xPosition * 0x4c1906) + (long)(xPosition * 0x5ac0db) + (long)(zPosition * zPosition) * 0x4307a7L + (long)(zPosition * 0x5f24f) ^ l);
+        return new Random(worldObj.getSeed() + (long)(xPosition * xPosition * 0x4c1906) + (long)(xPosition * 0x5ac0db) + (long)(zPosition * zPosition) * 0x4307a7L + (long)(zPosition * 0x5f24f) ^ l);
     }
 
     public boolean isEmpty()
@@ -890,7 +890,7 @@ public class Chunk
             {
                 int j1 = getBlockID(i, i1, j);
                 Material material = j1 != 0 ? Block.blocksList[j1].blockMaterial : Material.air;
-                if (!material.getIsSolid() && !material.getIsLiquid())
+                if (!material.blocksMovement() && !material.isLiquid())
                 {
                     i1--;
                 }

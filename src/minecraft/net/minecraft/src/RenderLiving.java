@@ -34,10 +34,10 @@ public class RenderLiving extends Render
         {
             renderPassModel.isRiding = mainModel.isRiding;
         }
-        mainModel.field_40301_k = entityliving.isChild();
+        mainModel.isChild = entityliving.isChild();
         if (renderPassModel != null)
         {
-            renderPassModel.field_40301_k = mainModel.field_40301_k;
+            renderPassModel.isChild = mainModel.isChild;
         }
         try
         {
@@ -281,7 +281,6 @@ public class RenderLiving extends Render
         tessellator.addVertex(j + 1, -1 + byte0, 0.0D);
         tessellator.draw();
         GL11.glEnable(3553 /*GL_TEXTURE_2D*/);
-        int c = VIPPlayers.getColor(s);
         fontrenderer.drawString(s, -fontrenderer.getStringWidth(s) / 2, byte0, 0x20ffffff);
         GL11.glEnable(2929 /*GL_DEPTH_TEST*/);
         GL11.glDepthMask(true);

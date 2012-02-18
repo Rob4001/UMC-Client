@@ -32,7 +32,7 @@ public class SaveHandlerMP
     {
     }
 
-    public File getMapFile(String s)
+    public File getMapFileFromName(String s)
     {
         return null;
     }

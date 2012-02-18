@@ -30,7 +30,7 @@ public abstract class StructureComponent
         return componentType;
     }
 
-    public static StructureComponent getIntersectingStructureComponent(List list, StructureBoundingBox structureboundingbox)
+    public static StructureComponent findIntersecting(List list, StructureBoundingBox structureboundingbox)
     {
         for (Iterator iterator = list.iterator(); iterator.hasNext();)
         {
@@ -44,9 +44,9 @@ public abstract class StructureComponent
         return null;
     }
 
-    public ChunkPosition func_40008_a_()
+    public ChunkPosition getCenter()
     {
-        return new ChunkPosition(boundingBox.func_40597_e(), boundingBox.func_40596_f(), boundingBox.func_40598_g());
+        return new ChunkPosition(boundingBox.getCenterX(), boundingBox.getCenterY(), boundingBox.getCenterZ());
     }
 
     protected boolean isLiquidInStructureBoundingBox(World world, StructureBoundingBox structureboundingbox)
@@ -62,12 +62,12 @@ public abstract class StructureComponent
             for (int j2 = k; j2 <= j1; j2++)
             {
                 int i3 = world.getBlockId(k1, j, j2);
-                if (i3 > 0 && Block.blocksList[i3].blockMaterial.getIsLiquid())
+                if (i3 > 0 && Block.blocksList[i3].blockMaterial.isLiquid())
                 {
                     return true;
                 }
                 i3 = world.getBlockId(k1, i1, j2);
-                if (i3 > 0 && Block.blocksList[i3].blockMaterial.getIsLiquid())
+                if (i3 > 0 && Block.blocksList[i3].blockMaterial.isLiquid())
                 {
                     return true;
                 }
@@ -79,12 +79,12 @@ public abstract class StructureComponent
             for (int k2 = j; k2 <= i1; k2++)
             {
                 int j3 = world.getBlockId(l1, k2, k);
-                if (j3 > 0 && Block.blocksList[j3].blockMaterial.getIsLiquid())
+                if (j3 > 0 && Block.blocksList[j3].blockMaterial.isLiquid())
                 {
                     return true;
                 }
                 j3 = world.getBlockId(l1, k2, j1);
-                if (j3 > 0 && Block.blocksList[j3].blockMaterial.getIsLiquid())
+                if (j3 > 0 && Block.blocksList[j3].blockMaterial.isLiquid())
                 {
                     return true;
                 }
@@ -96,12 +96,12 @@ public abstract class StructureComponent
             for (int l2 = j; l2 <= i1; l2++)
             {
                 int k3 = world.getBlockId(i, l2, i2);
-                if (k3 > 0 && Block.blocksList[k3].blockMaterial.getIsLiquid())
+                if (k3 > 0 && Block.blocksList[k3].blockMaterial.isLiquid())
                 {
                     return true;
                 }
                 k3 = world.getBlockId(l, l2, i2);
-                if (k3 > 0 && Block.blocksList[k3].blockMaterial.getIsLiquid())
+                if (k3 > 0 && Block.blocksList[k3].blockMaterial.isLiquid())
                 {
                     return true;
                 }
@@ -516,7 +516,7 @@ public abstract class StructureComponent
         {
             return;
         }
-        for (; (world.isAirBlock(j1, k1, l1) || world.getBlockMaterial(j1, k1, l1).getIsLiquid()) && k1 > 1; k1--)
+        for (; (world.isAirBlock(j1, k1, l1) || world.getBlockMaterial(j1, k1, l1).isLiquid()) && k1 > 1; k1--)
         {
             world.setBlockAndMetadata(j1, k1, l1, i, j);
         }
@@ -543,7 +543,7 @@ public abstract class StructureComponent
     {
         for (int j = 0; j < i; j++)
         {
-            StructurePieceTreasure structurepiecetreasure = (StructurePieceTreasure)WeightedRandom.chooseOne(random, astructurepiecetreasure);
+            StructurePieceTreasure structurepiecetreasure = (StructurePieceTreasure)WeightedRandom.getRandomItem(random, astructurepiecetreasure);
             int k = structurepiecetreasure.minItemStack + random.nextInt((structurepiecetreasure.maxItemStack - structurepiecetreasure.minItemStack) + 1);
             if (Item.itemsList[structurepiecetreasure.itemID].getItemStackLimit() >= k)
             {

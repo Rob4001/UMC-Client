@@ -4,29 +4,29 @@ import java.util.*;
 
 public class ItemPotion extends Item
 {
-    private HashMap idEffectNameMap;
+    private HashMap effectCache;
 
     public ItemPotion(int i)
     {
         super(i);
-        idEffectNameMap = new HashMap();
+        effectCache = new HashMap();
         setMaxStackSize(1);
         setHasSubtypes(true);
         setMaxDamage(0);
     }
 
-    public List getEffectNames(ItemStack itemstack)
+    public List getEffects(ItemStack itemstack)
     {
-        return getEffectNamesFromDamage(itemstack.getItemDamage());
+        return getEffects(itemstack.getItemDamage());
     }
 
-    public List getEffectNamesFromDamage(int i)
+    public List getEffects(int i)
     {
-        List list = (List)idEffectNameMap.get(Integer.valueOf(i));
+        List list = (List)effectCache.get(Integer.valueOf(i));
         if (list == null)
         {
             list = PotionHelper.getPotionEffects(i, false);
-            idEffectNameMap.put(Integer.valueOf(i), list);
+            effectCache.put(Integer.valueOf(i), list);
         }
         return list;
     }
@@ -34,9 +34,9 @@ public class ItemPotion extends Item
     public ItemStack onFoodEaten(ItemStack itemstack, World world, EntityPlayer entityplayer)
     {
         itemstack.stackSize--;
-        if (!world.multiplayerWorld)
+        if (!world.isRemote)
         {
-            List list = getEffectNames(itemstack);
+            List list = getEffects(itemstack);
             if (list != null)
             {
                 PotionEffect potioneffect;
@@ -73,7 +73,7 @@ public class ItemPotion extends Item
         {
             itemstack.stackSize--;
             world.playSoundAtEntity(entityplayer, "random.bow", 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
-            if (!world.multiplayerWorld)
+            if (!world.isRemote)
             {
                 world.spawnEntityInWorld(new EntityPotion(world, entityplayer, itemstack.getItemDamage()));
             }
@@ -132,7 +132,7 @@ public class ItemPotion extends Item
 
     public boolean isEffectInstant(int i)
     {
-        List list = getEffectNamesFromDamage(i);
+        List list = getEffects(i);
         if (list == null || list.isEmpty())
         {
             return false;
@@ -160,7 +160,7 @@ public class ItemPotion extends Item
         {
             s = (new StringBuilder()).append(StatCollector.translateToLocal("potion.prefix.grenade").trim()).append(" ").toString();
         }
-        List list = Item.potion.getEffectNames(itemstack);
+        List list = Item.potion.getEffects(itemstack);
         if (list != null && !list.isEmpty())
         {
             String s1 = ((PotionEffect)list.get(0)).getEffectName();
@@ -180,7 +180,7 @@ public class ItemPotion extends Item
         {
             return;
         }
-        List list1 = Item.potion.getEffectNames(itemstack);
+        List list1 = Item.potion.getEffects(itemstack);
         if (list1 != null && !list1.isEmpty())
         {
             for (Iterator iterator = list1.iterator(); iterator.hasNext();)
@@ -195,7 +195,7 @@ public class ItemPotion extends Item
                 {
                     s1 = (new StringBuilder()).append(s1).append(" (").append(Potion.func_40620_a(potioneffect)).append(")").toString();
                 }
-                if (Potion.potionTypes[potioneffect.getPotionID()].getIsBadEffect())
+                if (Potion.potionTypes[potioneffect.getPotionID()].isBadEffect())
                 {
                     list.add((new StringBuilder()).append("\247c").append(s1).toString());
                 }
@@ -214,7 +214,7 @@ public class ItemPotion extends Item
 
     public boolean hasEffect(ItemStack itemstack)
     {
-        List list = getEffectNames(itemstack);
+        List list = getEffects(itemstack);
         return list != null && !list.isEmpty();
     }
 }

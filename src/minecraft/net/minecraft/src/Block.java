@@ -317,7 +317,7 @@ public class Block
         }
     }
 
-    public boolean getIsBlockSolid(IBlockAccess iblockaccess, int i, int j, int k, int l)
+    public boolean isBlockSolid(IBlockAccess iblockaccess, int i, int j, int k, int l)
     {
         return iblockaccess.getBlockMaterial(i, j, k).isSolid();
     }
@@ -433,7 +433,7 @@ public class Block
 
     public void dropBlockAsItemWithChance(World world, int i, int j, int k, int l, float f, int i1)
     {
-        if (world.multiplayerWorld)
+        if (world.isRemote)
         {
             return;
         }
@@ -454,7 +454,7 @@ public class Block
 
     protected void dropBlockAsItem_do(World world, int i, int j, int k, ItemStack itemstack)
     {
-        if (world.multiplayerWorld)
+        if (world.isRemote)
         {
             return;
         }
@@ -626,7 +626,7 @@ public class Block
     public boolean canPlaceBlockAt(World world, int i, int j, int k)
     {
         int l = world.getBlockId(i, j, k);
-        return l == 0 || blocksList[l].blockMaterial.getIsGroundCover();
+        return l == 0 || blocksList[l].blockMaterial.isGroundCover();
     }
 
     public boolean blockActivated(World world, int i, int j, int k, EntityPlayer entityplayer)
@@ -776,7 +776,7 @@ public class Block
         return iblockaccess.isBlockNormalCube(i, j, k) ? 0.2F : 1.0F;
     }
 
-    public void func_43001_a(World world, int i, int j, int k, Entity entity, float f)
+    public void onFallenUpon(World world, int i, int j, int k, Entity entity, float f)
     {
     }
 

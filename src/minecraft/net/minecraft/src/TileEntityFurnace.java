@@ -96,7 +96,7 @@ public class TileEntityFurnace extends TileEntity
                 NBTTagCompound nbttagcompound1 = new NBTTagCompound();
                 nbttagcompound1.setByte("Slot", (byte)i);
                 furnaceItemStacks[i].writeToNBT(nbttagcompound1);
-                nbttaglist.setTag(nbttagcompound1);
+                nbttaglist.appendTag(nbttagcompound1);
             }
         }
 
@@ -135,7 +135,7 @@ public class TileEntityFurnace extends TileEntity
         {
             furnaceBurnTime--;
         }
-        if (!worldObj.multiplayerWorld)
+        if (!worldObj.isRemote)
         {
             if (furnaceBurnTime == 0 && canSmelt())
             {

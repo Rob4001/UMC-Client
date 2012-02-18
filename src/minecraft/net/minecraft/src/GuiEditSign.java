@@ -25,13 +25,15 @@ public class GuiEditSign extends GuiScreen
         controlList.clear();
         Keyboard.enableRepeatEvents(true);
         controlList.add(new GuiButton(0, width / 2 - 100, height / 4 + 120, "Done"));
+      //UMC Start
         controlList.add(new GuiButton(1, width / 2 - 100, height / 4 + 144, "ChestShop"));
+        //UMC End
     }
 
     public void onGuiClosed()
     {
         Keyboard.enableRepeatEvents(false);
-        if (mc.theWorld.multiplayerWorld)
+        if (mc.theWorld.isRemote)
         {
             mc.getSendQueue().addToSendQueue(new Packet130UpdateSign(entitySign.xCoord, entitySign.yCoord, entitySign.zCoord, entitySign.signText));
         }
@@ -53,11 +55,13 @@ public class GuiEditSign extends GuiScreen
             entitySign.onInventoryChanged();
             mc.displayGuiScreen(null);
         }
+        //UMC Start
         if(guibutton.id == 1)
         {
             entitySign.onInventoryChanged();
             mc.displayGuiScreen(new GuiChestShop(entitySign));
         }
+        //UMC End
     }
 
     protected void keyTyped(char c, int i)

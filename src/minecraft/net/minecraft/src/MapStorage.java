@@ -31,7 +31,7 @@ public class MapStorage
         {
             try
             {
-                File file = saveHandler.getMapFile(s);
+                File file = saveHandler.getMapFileFromName(s);
                 if (file != null && file.exists())
                 {
                     try
@@ -49,7 +49,7 @@ public class MapStorage
                         throw new RuntimeException((new StringBuilder()).append("Failed to instantiate ").append(class1.toString()).toString(), exception1);
                     }
                     FileInputStream fileinputstream = new FileInputStream(file);
-                    NBTTagCompound nbttagcompound = CompressedStreamTools.loadGzippedCompoundFromOutputStream(fileinputstream);
+                    NBTTagCompound nbttagcompound = CompressedStreamTools.readCompressed(fileinputstream);
                     fileinputstream.close();
                     worldsaveddata.readFromNBT(nbttagcompound.getCompoundTag("data"));
                 }
@@ -102,7 +102,7 @@ public class MapStorage
         }
         try
         {
-            File file = saveHandler.getMapFile(worldsaveddata.mapName);
+            File file = saveHandler.getMapFileFromName(worldsaveddata.mapName);
             if (file != null)
             {
                 NBTTagCompound nbttagcompound = new NBTTagCompound();
@@ -110,7 +110,7 @@ public class MapStorage
                 NBTTagCompound nbttagcompound1 = new NBTTagCompound();
                 nbttagcompound1.setCompoundTag("data", nbttagcompound);
                 FileOutputStream fileoutputstream = new FileOutputStream(file);
-                CompressedStreamTools.writeGzippedCompoundToOutputStream(nbttagcompound1, fileoutputstream);
+                CompressedStreamTools.writeCompressed(nbttagcompound1, fileoutputstream);
                 fileoutputstream.close();
             }
         }
@@ -129,7 +129,7 @@ public class MapStorage
             {
                 return;
             }
-            File file = saveHandler.getMapFile("idcounts");
+            File file = saveHandler.getMapFileFromName("idcounts");
             if (file != null && file.exists())
             {
                 DataInputStream datainputstream = new DataInputStream(new FileInputStream(file));
@@ -146,8 +146,8 @@ public class MapStorage
                     if (nbtbase instanceof NBTTagShort)
                     {
                         NBTTagShort nbttagshort = (NBTTagShort)nbtbase;
-                        String s = nbttagshort.getKey();
-                        short word0 = nbttagshort.shortValue;
+                        String s = nbttagshort.getName();
+                        short word0 = nbttagshort.data;
                         idCounts.put(s, Short.valueOf(word0));
                     }
                 }
@@ -180,7 +180,7 @@ public class MapStorage
         }
         try
         {
-            File file = saveHandler.getMapFile("idcounts");
+            File file = saveHandler.getMapFileFromName("idcounts");
             if (file != null)
             {
                 NBTTagCompound nbttagcompound = new NBTTagCompound();
@@ -193,7 +193,7 @@ public class MapStorage
                 }
 
                 DataOutputStream dataoutputstream = new DataOutputStream(new FileOutputStream(file));
-                CompressedStreamTools.writeTo(nbttagcompound, dataoutputstream);
+                CompressedStreamTools.write(nbttagcompound, dataoutputstream);
                 dataoutputstream.close();
             }
         }

@@ -5,16 +5,16 @@ public class MaterialLiquid extends Material
     public MaterialLiquid(MapColor mapcolor)
     {
         super(mapcolor);
-        setIsGroundCover();
+        setGroundCover();
         setNoPushMobility();
     }
 
-    public boolean getIsLiquid()
+    public boolean isLiquid()
     {
         return true;
     }
 
-    public boolean getIsSolid()
+    public boolean blocksMovement()
     {
         return false;
     }

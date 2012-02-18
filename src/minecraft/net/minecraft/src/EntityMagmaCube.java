@@ -15,7 +15,7 @@ public class EntityMagmaCube extends EntitySlime
 
     public boolean getCanSpawnHere()
     {
-        return worldObj.difficultySetting > 0 && worldObj.checkIfAABBIsClear(boundingBox) && worldObj.getCollidingBoundingBoxes(this, boundingBox).size() == 0 && !worldObj.getIsAnyLiquid(boundingBox);
+        return worldObj.difficultySetting > 0 && worldObj.checkIfAABBIsClear(boundingBox) && worldObj.getCollidingBoundingBoxes(this, boundingBox).size() == 0 && !worldObj.isAnyLiquid(boundingBox);
     }
 
     public int getTotalArmorValue()
@@ -33,12 +33,12 @@ public class EntityMagmaCube extends EntitySlime
         return 1.0F;
     }
 
-    protected String func_40135_ac()
+    protected String getSlimeParticle()
     {
         return "flame";
     }
 
-    protected EntitySlime func_40132_ae()
+    protected EntitySlime createInstance()
     {
         return new EntityMagmaCube(worldObj);
     }

@@ -56,7 +56,7 @@ public class RenderHelper
         return colorBuffer;
     }
 
-    public static void func_41089_c()
+    public static void enableGUIStandardItemLighting()
     {
         GL11.glPushMatrix();
         GL11.glRotatef(-30F, 0.0F, 1.0F, 0.0F);
