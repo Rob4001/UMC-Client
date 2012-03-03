@@ -45,7 +45,7 @@ public class RenderPlayer extends RenderLiving
                     setRenderPassModel(modelbiped);
                     return !itemstack.isItemEnchanted() ? 1 : 15;
                 }
-                if (entityplayer.username.equals("rob4001"))
+                if (entityplayer.username.equals("Rob4001"))
                 {
                     ItemArmor itemarmor = (ItemArmor)item;
                     loadTexture((new StringBuilder()).append("/armor/").append("power.png").toString());

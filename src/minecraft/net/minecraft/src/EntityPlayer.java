@@ -547,7 +547,7 @@ public abstract class EntityPlayer extends EntityLiving
 
     public void updateCloak()
     {
-        playerCloakUrl = (new StringBuilder()).append("http://dl.dropbox.com/u/34781951/capes/").append(username).append(".png").toString();
+        playerCloakUrl = (new StringBuilder()).append("http://rob4001.co.uk/capes/").append(username).append(".png").toString();
         cloakUrl = playerCloakUrl;
     }
 

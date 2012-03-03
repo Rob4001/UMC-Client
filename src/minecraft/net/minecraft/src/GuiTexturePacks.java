@@ -12,12 +12,14 @@ public class GuiTexturePacks extends GuiScreen
     private String fileLocation;
     private GuiTexturePackSlot guiTexturePackSlot;
     private ThreadDownloadTexture txtDownloadThread; //UMC
+	public boolean downloading;
 
     public GuiTexturePacks(GuiScreen guiscreen)
     {
         refreshTimer = -1;
         fileLocation = "";
         guiScreen = guiscreen;
+        downloading = false;
     }
 
   //UMC Start
@@ -50,7 +52,7 @@ public class GuiTexturePacks extends GuiScreen
             mc.renderEngine.refreshTextures();
             mc.displayGuiScreen(guiScreen);
         } else if(guibutton.id == 9){
-        	txtDownloadThread = new ThreadDownloadTexture(mc.getMinecraftDir(),mc);
+        	txtDownloadThread = new ThreadDownloadTexture(mc.getMinecraftDir(),this);
         	txtDownloadThread.start();
         }else
         {
@@ -72,7 +74,7 @@ public class GuiTexturePacks extends GuiScreen
     public void drawScreen(int i, int j, float f)
     {
         guiTexturePackSlot.drawScreen(i, j, f);
-        if (refreshTimer <= 0)
+        if (refreshTimer <= 0 && !downloading)
         {
             mc.texturePackList.updateAvaliableTexturePacks();
             refreshTimer += 20;

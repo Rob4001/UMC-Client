@@ -1,48 +1,54 @@
 package net.minecraft.src;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.File;
+import java.io.InputStream;
 import java.net.URL;
-
-import net.minecraft.client.Minecraft;
+import java.net.URLConnection;
 
 //UMC Class
 
 public class ThreadDownloadTexture extends Thread{
 
-	private Minecraft mc;
 	private File dir;
+	private GuiTexturePacks tp;
 
-	public ThreadDownloadTexture(File minecraftDir, Minecraft mc) {
-		this.mc = mc;
+	public ThreadDownloadTexture(File minecraftDir, GuiTexturePacks guiTexturePacks) {
 		this.dir = minecraftDir;
+		this.tp =  guiTexturePacks;
 	}
 public void run(){
+	tp.downloading = true;
 	try{
-		downloadResource(new URL("http://dl.dropbox.com/u/7562870/UMC%20Texture%20Pack.zip"),new File(dir.getAbsolutePath()+File.separator+"texturepacks","UMC TexturePack.zip"),0);
-		mc.texturePackList.updateAvaliableTexturePacks();
+		downloadResource(new URL("http://dl.dropbox.com/u/7562870/UMC%20Texture%20Pack.zip"),new File(dir.getAbsolutePath()+File.separator+"texturepacks","UMCTexturePack.zip"));
 	}
 		catch(Exception e)
 		{
 			e.printStackTrace();
 		}
-	
+	tp.downloading = false;
 	}
-private void downloadResource(URL url, File file, long l)
-		throws IOException
-		{
-	byte abyte0[] = new byte[4096];
-	DataInputStream datainputstream = new DataInputStream(url.openStream());
-	DataOutputStream dataoutputstream = new DataOutputStream(new FileOutputStream(file));
-	for (int i = 0; (i = datainputstream.read(abyte0)) >= 0;)
-	{
-		dataoutputstream.write(abyte0, 0, i);
-		datainputstream.close();
-		dataoutputstream.close();
-	}
-	
-  }
+public void downloadResource(URL url,File save_to) {
+    try {
+        URLConnection conn = url.openConnection();
+        conn.setDoOutput(true);
+        conn.setDoInput(true);
+        conn.setRequestProperty("content-type", "binary/data");
+        InputStream in = conn.getInputStream();
+        FileOutputStream out = new FileOutputStream(save_to );
+
+        byte[] b = new byte[1024];
+        int count;
+
+        while ((count = in.read(b)) > 0) {
+            out.write(b, 0, count);
+        }
+        out.close();
+        in.close();
+
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+}
 }
