@@ -4,31 +4,39 @@ import java.io.*;
 
 public class NBTTagDouble extends NBTBase
 {
-    public double doubleValue;
+    /** The double value for the tag. */
+    public double data;
 
-    public NBTTagDouble(String s)
+    public NBTTagDouble(String par1Str)
     {
-        super(s);
+        super(par1Str);
     }
 
-    public NBTTagDouble(String s, double d)
+    public NBTTagDouble(String par1Str, double par2)
     {
-        super(s);
-        doubleValue = d;
+        super(par1Str);
+        data = par2;
     }
 
-    void write(DataOutput dataoutput)
-    throws IOException
+    /**
+     * Write the actual data contents of the tag, implemented in NBT extension classes
+     */
+    void write(DataOutput par1DataOutput) throws IOException
     {
-        dataoutput.writeDouble(doubleValue);
+        par1DataOutput.writeDouble(data);
     }
 
-    void load(DataInput datainput)
-    throws IOException
+    /**
+     * Read the actual data contents of the tag, implemented in NBT extension classes
+     */
+    void load(DataInput par1DataInput) throws IOException
     {
-        doubleValue = datainput.readDouble();
+        data = par1DataInput.readDouble();
     }
 
+    /**
+     * Gets the type byte for the tag.
+     */
     public byte getId()
     {
         return 6;
@@ -36,20 +44,23 @@ public class NBTTagDouble extends NBTBase
 
     public String toString()
     {
-        return (new StringBuilder()).append("").append(doubleValue).toString();
+        return (new StringBuilder()).append("").append(data).toString();
     }
 
+    /**
+     * Creates a clone of the tag.
+     */
     public NBTBase copy()
     {
-        return new NBTTagDouble(getName(), doubleValue);
+        return new NBTTagDouble(getName(), data);
     }
 
-    public boolean equals(Object obj)
+    public boolean equals(Object par1Obj)
     {
-        if (super.equals(obj))
+        if (super.equals(par1Obj))
         {
-            NBTTagDouble nbttagdouble = (NBTTagDouble)obj;
-            return doubleValue == nbttagdouble.doubleValue;
+            NBTTagDouble nbttagdouble = (NBTTagDouble)par1Obj;
+            return data == nbttagdouble.data;
         }
         else
         {

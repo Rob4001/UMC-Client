@@ -1,11 +1,14 @@
 package net.minecraft.src;
 
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 
 public class EntityAITasks
 {
     private ArrayList tasksToDo;
+
+    /** Tasks currently being executed */
     private ArrayList executingTasks;
 
     public EntityAITasks()
@@ -14,58 +17,90 @@ public class EntityAITasks
         executingTasks = new ArrayList();
     }
 
-    public void addTask(int i, EntityAIBase entityaibase)
+    public void addTask(int par1, EntityAIBase par2EntityAIBase)
     {
-        tasksToDo.add(new EntityAITaskEntry(this, i, entityaibase));
+        tasksToDo.add(new EntityAITaskEntry(this, par1, par2EntityAIBase));
     }
 
     public void onUpdateTasks()
     {
         ArrayList arraylist = new ArrayList();
         Iterator iterator = tasksToDo.iterator();
+
         do
         {
             if (!iterator.hasNext())
             {
                 break;
             }
+
             EntityAITaskEntry entityaitaskentry = (EntityAITaskEntry)iterator.next();
-            boolean flag = executingTasks.contains(entityaitaskentry);
-            if (flag)
+            boolean flag1 = executingTasks.contains(entityaitaskentry);
+
+            if (flag1)
             {
-                if (!entityaitaskentry.field_46114_a.continueExecuting() || !func_46116_a(entityaitaskentry))
+                if (func_46116_a(entityaitaskentry) && entityaitaskentry.action.continueExecuting())
                 {
-                    entityaitaskentry.field_46114_a.resetTask();
-                    executingTasks.remove(entityaitaskentry);
+                    continue;
                 }
+
+                entityaitaskentry.action.resetTask();
+                executingTasks.remove(entityaitaskentry);
             }
-            else if (entityaitaskentry.field_46114_a.shouldExecute() && func_46116_a(entityaitaskentry))
+
+            if (func_46116_a(entityaitaskentry) && entityaitaskentry.action.shouldExecute())
             {
                 arraylist.add(entityaitaskentry);
                 executingTasks.add(entityaitaskentry);
             }
         }
         while (true);
+
+        boolean flag = false;
+
+        if (flag && arraylist.size() > 0)
+        {
+            System.out.println("Starting: ");
+        }
+
         EntityAITaskEntry entityaitaskentry1;
-        for (Iterator iterator1 = arraylist.iterator(); iterator1.hasNext(); entityaitaskentry1.field_46114_a.func_46080_e())
+
+        for (Iterator iterator1 = arraylist.iterator(); iterator1.hasNext(); entityaitaskentry1.action.func_46080_e())
         {
             entityaitaskentry1 = (EntityAITaskEntry)iterator1.next();
+
+            if (flag)
+            {
+                System.out.println((new StringBuilder()).append(entityaitaskentry1.action.toString()).append(", ").toString());
+            }
+        }
+
+        if (flag && executingTasks.size() > 0)
+        {
+            System.out.println("Running: ");
         }
 
         EntityAITaskEntry entityaitaskentry2;
-        for (Iterator iterator2 = executingTasks.iterator(); iterator2.hasNext(); entityaitaskentry2.field_46114_a.updateTask())
+
+        for (Iterator iterator2 = executingTasks.iterator(); iterator2.hasNext(); entityaitaskentry2.action.updateTask())
         {
             entityaitaskentry2 = (EntityAITaskEntry)iterator2.next();
+
+            if (flag)
+            {
+                System.out.println(entityaitaskentry2.action.toString());
+            }
         }
     }
 
-    private boolean func_46116_a(EntityAITaskEntry entityaitaskentry)
+    private boolean func_46116_a(EntityAITaskEntry par1EntityAITaskEntry)
     {
         label0:
         {
             Iterator iterator = tasksToDo.iterator();
-            EntityAITaskEntry entityaitaskentry1;
+            EntityAITaskEntry entityaitaskentry;
             label1:
+
             do
             {
                 do
@@ -76,25 +111,32 @@ public class EntityAITasks
                         {
                             break label0;
                         }
-                        entityaitaskentry1 = (EntityAITaskEntry)iterator.next();
+
+                        entityaitaskentry = (EntityAITaskEntry)iterator.next();
                     }
-                    while (entityaitaskentry1 == entityaitaskentry);
-                    if (entityaitaskentry.priority < entityaitaskentry1.priority)
+                    while (entityaitaskentry == par1EntityAITaskEntry);
+
+                    if (par1EntityAITaskEntry.priority < entityaitaskentry.priority)
                     {
                         continue label1;
                     }
                 }
-                while (!executingTasks.contains(entityaitaskentry1) || areTasksCompatible(entityaitaskentry, entityaitaskentry1));
+                while (!executingTasks.contains(entityaitaskentry) || areTasksCompatible(par1EntityAITaskEntry, entityaitaskentry));
+
                 return false;
             }
-            while (!executingTasks.contains(entityaitaskentry1) || entityaitaskentry1.field_46114_a.isContinous());
+            while (!executingTasks.contains(entityaitaskentry) || entityaitaskentry.action.isContinous());
+
             return false;
         }
         return true;
     }
 
-    private boolean areTasksCompatible(EntityAITaskEntry entityaitaskentry, EntityAITaskEntry entityaitaskentry1)
+    /**
+     * Returns whether two EntityAITaskEntries can be executed concurrently
+     */
+    private boolean areTasksCompatible(EntityAITaskEntry par1EntityAITaskEntry, EntityAITaskEntry par2EntityAITaskEntry)
     {
-        return (entityaitaskentry.field_46114_a.func_46083_c() & entityaitaskentry1.field_46114_a.func_46083_c()) == 0;
+        return (par1EntityAITaskEntry.action.func_46083_c() & par2EntityAITaskEntry.action.func_46083_c()) == 0;
     }
 }

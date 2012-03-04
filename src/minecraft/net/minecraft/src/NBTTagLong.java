@@ -4,31 +4,39 @@ import java.io.*;
 
 public class NBTTagLong extends NBTBase
 {
+    /** The long value for the tag. */
     public long data;
 
-    public NBTTagLong(String s)
+    public NBTTagLong(String par1Str)
     {
-        super(s);
+        super(par1Str);
     }
 
-    public NBTTagLong(String s, long l)
+    public NBTTagLong(String par1Str, long par2)
     {
-        super(s);
-        data = l;
+        super(par1Str);
+        data = par2;
     }
 
-    void write(DataOutput dataoutput)
-    throws IOException
+    /**
+     * Write the actual data contents of the tag, implemented in NBT extension classes
+     */
+    void write(DataOutput par1DataOutput) throws IOException
     {
-        dataoutput.writeLong(data);
+        par1DataOutput.writeLong(data);
     }
 
-    void load(DataInput datainput)
-    throws IOException
+    /**
+     * Read the actual data contents of the tag, implemented in NBT extension classes
+     */
+    void load(DataInput par1DataInput) throws IOException
     {
-        data = datainput.readLong();
+        data = par1DataInput.readLong();
     }
 
+    /**
+     * Gets the type byte for the tag.
+     */
     public byte getId()
     {
         return 4;
@@ -39,16 +47,19 @@ public class NBTTagLong extends NBTBase
         return (new StringBuilder()).append("").append(data).toString();
     }
 
+    /**
+     * Creates a clone of the tag.
+     */
     public NBTBase copy()
     {
         return new NBTTagLong(getName(), data);
     }
 
-    public boolean equals(Object obj)
+    public boolean equals(Object par1Obj)
     {
-        if (super.equals(obj))
+        if (super.equals(par1Obj))
         {
-            NBTTagLong nbttaglong = (NBTTagLong)obj;
+            NBTTagLong nbttaglong = (NBTTagLong)par1Obj;
             return data == nbttaglong.data;
         }
         else

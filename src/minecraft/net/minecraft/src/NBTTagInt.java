@@ -4,31 +4,39 @@ import java.io.*;
 
 public class NBTTagInt extends NBTBase
 {
+    /** The integer value for the tag. */
     public int data;
 
-    public NBTTagInt(String s)
+    public NBTTagInt(String par1Str)
     {
-        super(s);
+        super(par1Str);
     }
 
-    public NBTTagInt(String s, int i)
+    public NBTTagInt(String par1Str, int par2)
     {
-        super(s);
-        data = i;
+        super(par1Str);
+        data = par2;
     }
 
-    void write(DataOutput dataoutput)
-    throws IOException
+    /**
+     * Write the actual data contents of the tag, implemented in NBT extension classes
+     */
+    void write(DataOutput par1DataOutput) throws IOException
     {
-        dataoutput.writeInt(data);
+        par1DataOutput.writeInt(data);
     }
 
-    void load(DataInput datainput)
-    throws IOException
+    /**
+     * Read the actual data contents of the tag, implemented in NBT extension classes
+     */
+    void load(DataInput par1DataInput) throws IOException
     {
-        data = datainput.readInt();
+        data = par1DataInput.readInt();
     }
 
+    /**
+     * Gets the type byte for the tag.
+     */
     public byte getId()
     {
         return 3;
@@ -39,16 +47,19 @@ public class NBTTagInt extends NBTBase
         return (new StringBuilder()).append("").append(data).toString();
     }
 
+    /**
+     * Creates a clone of the tag.
+     */
     public NBTBase copy()
     {
         return new NBTTagInt(getName(), data);
     }
 
-    public boolean equals(Object obj)
+    public boolean equals(Object par1Obj)
     {
-        if (super.equals(obj))
+        if (super.equals(par1Obj))
         {
-            NBTTagInt nbttagint = (NBTTagInt)obj;
+            NBTTagInt nbttagint = (NBTTagInt)par1Obj;
             return data == nbttagint.data;
         }
         else

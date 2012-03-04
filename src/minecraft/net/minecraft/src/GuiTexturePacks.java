@@ -1,6 +1,9 @@
 package net.minecraft.src;
 
 import java.io.File;
+import java.io.PrintStream;
+import java.lang.reflect.Method;
+import java.net.URI;
 import java.util.List;
 import net.minecraft.client.Minecraft;
 import org.lwjgl.Sys;
@@ -9,19 +12,27 @@ public class GuiTexturePacks extends GuiScreen
 {
     protected GuiScreen guiScreen;
     private int refreshTimer;
+
+    /** the absolute location of this texture pack */
     private String fileLocation;
+
+    /**
+     * the GuiTexturePackSlot that contains all the texture packs and their descriptions
+     */
     private GuiTexturePackSlot guiTexturePackSlot;
     private ThreadDownloadTexture txtDownloadThread; //UMC
-	public boolean downloading;
+	public boolean downloading;//UMC
 
-    public GuiTexturePacks(GuiScreen guiscreen)
+    public GuiTexturePacks(GuiScreen par1GuiScreen)
     {
         refreshTimer = -1;
         fileLocation = "";
-        guiScreen = guiscreen;
-        downloading = false;
+        guiScreen = par1GuiScreen;
     }
 
+    /**
+     * Adds the buttons (and other controls) to the screen in question.
+     */
   //UMC Start
     public void initGui()
     {
@@ -61,103 +72,118 @@ public class GuiTexturePacks extends GuiScreen
     }
   //UMC End
 
-    protected void mouseClicked(int i, int j, int k)
+    /**
+     * Called when the mouse is clicked.
+     */
+    protected void mouseClicked(int par1, int par2, int par3)
     {
-        super.mouseClicked(i, j, k);
+        super.mouseClicked(par1, par2, par3);
     }
 
-    protected void mouseMovedOrUp(int i, int j, int k)
+    /**
+     * Called when the mouse is moved or a mouse button is released.  Signature: (mouseX, mouseY, which) which==-1 is
+     * mouseMove, which==0 or which==1 is mouseUp
+     */
+    protected void mouseMovedOrUp(int par1, int par2, int par3)
     {
-        super.mouseMovedOrUp(i, j, k);
+        super.mouseMovedOrUp(par1, par2, par3);
     }
 
-    public void drawScreen(int i, int j, float f)
+    /**
+     * Draws the screen and all the components in it.
+     */
+    public void drawScreen(int par1, int par2, float par3)
     {
-        guiTexturePackSlot.drawScreen(i, j, f);
-        if (refreshTimer <= 0 && !downloading)
+        guiTexturePackSlot.drawScreen(par1, par2, par3);
+
+        if (refreshTimer <= 0)
         {
             mc.texturePackList.updateAvaliableTexturePacks();
             refreshTimer += 20;
         }
+
         StringTranslate stringtranslate = StringTranslate.getInstance();
         drawCenteredString(fontRenderer, stringtranslate.translateKey("texturePack.title"), width / 2, 16, 0xffffff);
         drawCenteredString(fontRenderer, stringtranslate.translateKey("texturePack.folderInfo"), width / 2 - 77, height - 26, 0x808080);
-        super.drawScreen(i, j, f);
+        super.drawScreen(par1, par2, par3);
     }
 
+    /**
+     * Called from the main game loop to update the screen.
+     */
     public void updateScreen()
     {
         super.updateScreen();
         refreshTimer--;
     }
 
-    static Minecraft func_22124_a(GuiTexturePacks guitexturepacks)
+    static Minecraft func_22124_a(GuiTexturePacks par0GuiTexturePacks)
     {
-        return guitexturepacks.mc;
+        return par0GuiTexturePacks.mc;
     }
 
-    static Minecraft func_22126_b(GuiTexturePacks guitexturepacks)
+    static Minecraft func_22126_b(GuiTexturePacks par0GuiTexturePacks)
     {
-        return guitexturepacks.mc;
+        return par0GuiTexturePacks.mc;
     }
 
-    static Minecraft func_22119_c(GuiTexturePacks guitexturepacks)
+    static Minecraft func_22119_c(GuiTexturePacks par0GuiTexturePacks)
     {
-        return guitexturepacks.mc;
+        return par0GuiTexturePacks.mc;
     }
 
-    static Minecraft func_22122_d(GuiTexturePacks guitexturepacks)
+    static Minecraft func_22122_d(GuiTexturePacks par0GuiTexturePacks)
     {
-        return guitexturepacks.mc;
+        return par0GuiTexturePacks.mc;
     }
 
-    static Minecraft func_22117_e(GuiTexturePacks guitexturepacks)
+    static Minecraft func_22117_e(GuiTexturePacks par0GuiTexturePacks)
     {
-        return guitexturepacks.mc;
+        return par0GuiTexturePacks.mc;
     }
 
-    static Minecraft func_35307_f(GuiTexturePacks guitexturepacks)
+    static Minecraft func_35307_f(GuiTexturePacks par0GuiTexturePacks)
     {
-        return guitexturepacks.mc;
+        return par0GuiTexturePacks.mc;
     }
 
-    static Minecraft func_35308_g(GuiTexturePacks guitexturepacks)
+    static Minecraft func_35308_g(GuiTexturePacks par0GuiTexturePacks)
     {
-        return guitexturepacks.mc;
+        return par0GuiTexturePacks.mc;
     }
 
-    static Minecraft func_22118_f(GuiTexturePacks guitexturepacks)
+    static Minecraft func_22118_f(GuiTexturePacks par0GuiTexturePacks)
     {
-        return guitexturepacks.mc;
+        return par0GuiTexturePacks.mc;
     }
 
-    static Minecraft func_22116_g(GuiTexturePacks guitexturepacks)
+    static Minecraft func_22116_g(GuiTexturePacks par0GuiTexturePacks)
     {
-        return guitexturepacks.mc;
+        return par0GuiTexturePacks.mc;
     }
 
-    static Minecraft func_22121_h(GuiTexturePacks guitexturepacks)
+    static Minecraft func_22121_h(GuiTexturePacks par0GuiTexturePacks)
     {
-        return guitexturepacks.mc;
+        return par0GuiTexturePacks.mc;
     }
 
-    static Minecraft func_22123_i(GuiTexturePacks guitexturepacks)
+    static Minecraft func_22123_i(GuiTexturePacks par0GuiTexturePacks)
     {
-        return guitexturepacks.mc;
+        return par0GuiTexturePacks.mc;
     }
 
-    static FontRenderer func_22127_j(GuiTexturePacks guitexturepacks)
+    static FontRenderer func_22127_j(GuiTexturePacks par0GuiTexturePacks)
     {
-        return guitexturepacks.fontRenderer;
+        return par0GuiTexturePacks.fontRenderer;
     }
 
-    static FontRenderer func_22120_k(GuiTexturePacks guitexturepacks)
+    static FontRenderer func_22120_k(GuiTexturePacks par0GuiTexturePacks)
     {
-        return guitexturepacks.fontRenderer;
+        return par0GuiTexturePacks.fontRenderer;
     }
 
-    static FontRenderer func_22125_l(GuiTexturePacks guitexturepacks)
+    static FontRenderer func_22125_l(GuiTexturePacks par0GuiTexturePacks)
     {
-        return guitexturepacks.fontRenderer;
+        return par0GuiTexturePacks.fontRenderer;
     }
 }

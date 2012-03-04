@@ -4,31 +4,39 @@ import java.io.*;
 
 public class NBTTagShort extends NBTBase
 {
+    /** The short value for the tag. */
     public short data;
 
-    public NBTTagShort(String s)
+    public NBTTagShort(String par1Str)
     {
-        super(s);
+        super(par1Str);
     }
 
-    public NBTTagShort(String s, short word0)
+    public NBTTagShort(String par1Str, short par2)
     {
-        super(s);
-        data = word0;
+        super(par1Str);
+        data = par2;
     }
 
-    void write(DataOutput dataoutput)
-    throws IOException
+    /**
+     * Write the actual data contents of the tag, implemented in NBT extension classes
+     */
+    void write(DataOutput par1DataOutput) throws IOException
     {
-        dataoutput.writeShort(data);
+        par1DataOutput.writeShort(data);
     }
 
-    void load(DataInput datainput)
-    throws IOException
+    /**
+     * Read the actual data contents of the tag, implemented in NBT extension classes
+     */
+    void load(DataInput par1DataInput) throws IOException
     {
-        data = datainput.readShort();
+        data = par1DataInput.readShort();
     }
 
+    /**
+     * Gets the type byte for the tag.
+     */
     public byte getId()
     {
         return 2;
@@ -39,16 +47,19 @@ public class NBTTagShort extends NBTBase
         return (new StringBuilder()).append("").append(data).toString();
     }
 
+    /**
+     * Creates a clone of the tag.
+     */
     public NBTBase copy()
     {
         return new NBTTagShort(getName(), data);
     }
 
-    public boolean equals(Object obj)
+    public boolean equals(Object par1Obj)
     {
-        if (super.equals(obj))
+        if (super.equals(par1Obj))
         {
-            NBTTagShort nbttagshort = (NBTTagShort)obj;
+            NBTTagShort nbttagshort = (NBTTagShort)par1Obj;
             return data == nbttagshort.data;
         }
         else

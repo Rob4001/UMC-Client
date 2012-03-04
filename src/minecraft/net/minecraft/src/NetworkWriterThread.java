@@ -5,12 +5,13 @@ import java.io.IOException;
 
 class NetworkWriterThread extends Thread
 {
+    /** Reference to the NetworkManager object. */
     final NetworkManager netManager;
 
-    NetworkWriterThread(NetworkManager networkmanager, String s)
+    NetworkWriterThread(NetworkManager par1NetworkManager, String par2Str)
     {
-        super(s);
-        netManager = networkmanager;
+        super(par2Str);
+        netManager = par1NetworkManager;
     }
 
     public void run()
@@ -19,11 +20,13 @@ class NetworkWriterThread extends Thread
         {
             NetworkManager.numWriteThreads++;
         }
+
         try
         {
             while (NetworkManager.isRunning(netManager))
             {
                 while (NetworkManager.sendNetworkPacket(netManager)) ;
+
                 try
                 {
                     if (NetworkManager.getOutputStream(netManager) != null)
@@ -35,10 +38,12 @@ class NetworkWriterThread extends Thread
                 {
                     if (!NetworkManager.isTerminating(netManager))
                     {
-                        NetworkManager.func_30005_a(netManager, ioexception);
+                        NetworkManager.sendError(netManager, ioexception);
                     }
+
                     ioexception.printStackTrace();
                 }
+
                 try
                 {
                     sleep(2L);

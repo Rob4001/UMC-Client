@@ -3,6 +3,8 @@ package net.minecraft.src;
 public class Material
 {
     public static final Material air;
+
+    /** The material used by BlockGrass */
     public static final Material grass;
     public static final Material ground;
     public static final Material wood;
@@ -19,32 +21,65 @@ public class Material
     public static final Material sand;
     public static final Material circuits;
     public static final Material glass;
+    public static final Material field_48468_r;
     public static final Material tnt;
     public static final Material field_4262_q;
     public static final Material ice;
     public static final Material snow;
+
+    /** The material for crafted snow. */
     public static final Material craftedSnow;
     public static final Material cactus;
     public static final Material clay;
+
+    /** pumpkin */
     public static final Material pumpkin;
     public static final Material dragonEgg;
+
+    /** Material used for portals */
     public static final Material portal;
+
+    /** Cake's material, see BlockCake */
     public static final Material cake;
+
+    /** Web's material. */
     public static final Material web;
+
+    /** Pistons' material. */
     public static final Material piston;
+
+    /** Bool defining if the block can burn or not. */
     private boolean canBurn;
+
+    /** Indicates if the material is a form of ground cover, e.g. Snow */
     private boolean groundCover;
+
+    /** Indicates if the material is translucent */
     private boolean isTranslucent;
+
+    /** The color index used to draw the blocks of this material on maps. */
     public final MapColor materialMapColor;
+
+    /**
+     * Determines if the materials is one that can be collected by the player.
+     */
     private boolean canHarvest;
+
+    /**
+     * Mobility information / flag of the material. 0 = normal, 1 = can't be push but enabled piston to move over it, 2
+     * = can't be pushed and stop pistons
+     */
     private int mobilityFlag;
 
-    public Material(MapColor mapcolor)
+    public Material(MapColor par1MapColor)
     {
         canHarvest = true;
-        materialMapColor = mapcolor;
+        materialMapColor = par1MapColor;
     }
 
+    /**
+     * Returns if blocks of these materials are liquids.
+     */
     public boolean isLiquid()
     {
         return false;
@@ -55,50 +90,77 @@ public class Material
         return true;
     }
 
+    /**
+     * Will prevent grass from growing on dirt underneath and kill any grass below it if it returns true
+     */
     public boolean getCanBlockGrass()
     {
         return true;
     }
 
+    /**
+     * Returns if this material is considered solid or not
+     */
     public boolean blocksMovement()
     {
         return true;
     }
 
+    /**
+     * Marks the material as translucent
+     */
     private Material setTranslucent()
     {
         isTranslucent = true;
         return this;
     }
 
+    /**
+     * Disables the ability to harvest this material.
+     */
     protected Material setNoHarvest()
     {
         canHarvest = false;
         return this;
     }
 
+    /**
+     * Set the canBurn bool to True and return the current object.
+     */
     protected Material setBurning()
     {
         canBurn = true;
         return this;
     }
 
+    /**
+     * Returns if the block can burn or not.
+     */
     public boolean getCanBurn()
     {
         return canBurn;
     }
 
+    /**
+     * Sets the material as a form of ground cover, e.g. Snow
+     */
     public Material setGroundCover()
     {
         groundCover = true;
         return this;
     }
 
+    /**
+     * Return whether the material is a form of ground cover, e.g. Snow
+     */
     public boolean isGroundCover()
     {
         return groundCover;
     }
 
+    /**
+     * Indicates if the material is translucent
+     */
     public boolean isOpaque()
     {
         if (isTranslucent)
@@ -111,22 +173,35 @@ public class Material
         }
     }
 
+    /**
+     * Returns true if material can be harvested by player.
+     */
     public boolean isHarvestable()
     {
         return canHarvest;
     }
 
+    /**
+     * Returns the mobility information of the material, 0 = free, 1 = can't push but can move over, 2 = total
+     * immobility and stop pistons
+     */
     public int getMaterialMobility()
     {
         return mobilityFlag;
     }
 
+    /**
+     * This type of material can't be pushed, but pistons can move over it.
+     */
     protected Material setNoPushMobility()
     {
         mobilityFlag = 1;
         return this;
     }
 
+    /**
+     * This type of material can't be pushed, and pistons are blocked to move.
+     */
     protected Material setImmovableMobility()
     {
         mobilityFlag = 2;
@@ -152,6 +227,7 @@ public class Material
         sand = new Material(MapColor.sandColor);
         circuits = (new MaterialLogic(MapColor.airColor)).setNoPushMobility();
         glass = (new Material(MapColor.airColor)).setTranslucent();
+        field_48468_r = new Material(MapColor.airColor);
         tnt = (new Material(MapColor.tntColor)).setBurning().setTranslucent();
         field_4262_q = (new Material(MapColor.foliageColor)).setNoPushMobility();
         ice = (new Material(MapColor.iceColor)).setTranslucent();
